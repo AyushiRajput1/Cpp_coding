@@ -1,0 +1,52 @@
+class Solution {
+public:
+    string gcdOfStrings(string str1, string str2) 
+    {
+        
+        if(str1+str2 != str2+str1)
+            return "";
+        else
+        {
+            int n1=str1.size();
+            int n2=str2.size();
+            int gcd;
+            
+            for(int i=1;i<=min(n1,n2);i++)
+            {
+                if(n1%i==0 && n2%i==0)
+                {
+                    gcd=i;
+                }
+            }
+            
+            if(n1>n2)
+            {
+                return(str2.substr(0,gcd));
+            }
+            else
+                return(str1.substr(0,gcd));
+        }
+    return "";
+    }
+};
+
+class Solution {
+public:
+    string gcdOfStrings(string str1, string str2) 
+    {
+        
+        if(str1+str2 != str2+str1)
+            return "";
+        else
+        {
+            int l=__gcd(str1.size(),str2.size());//built in fuction
+            if(str1.size() > str2.size())
+            {
+                return(str2.substr(0,l));
+            }
+            else
+                return(str1.substr(0,l));
+        }
+    return "";
+    }
+};

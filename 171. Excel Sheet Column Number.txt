@@ -1,0 +1,24 @@
+Intuition:
+Suppose you are given a integer string s ="248". How will you convert it to integer?
+
+ans=0;
+for( int i=0; i<s.size();i++)
+	ans=ans*10+s[i];
+----------------------------------
+As you might have guessed 26 {A-Z}. Where {A-Z}=>{1-26}. Our solution is ready.
+-----------------------------------------------------
+class Solution {
+public:
+    int titleToNumber(string s) 
+    {
+        reverse(s.begin(),s.end());
+        int sum=0;
+        for(int i=0;i<s.size();i++)
+            sum=((s[i]-'A'+1)*(pow(26,i)))+sum;
+
+        return sum;
+    }
+};
+---------------------------------------------------------
+
+

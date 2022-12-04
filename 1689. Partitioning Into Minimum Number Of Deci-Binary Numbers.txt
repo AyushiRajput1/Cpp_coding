@@ -1,0 +1,46 @@
+n = "153"
+Now let's break down each digit with required number of ones as we can use only 0 or 1 in deci-binaries.
+
+1 - 1 0 0 0 0
+5 - 1 1 1 1 1
+3 - 1 1 1 0 0
+Added zero padding to the tail to align with max number of in n.
+111 + 011 + 011 + 010 + 010 = 153
+
+So in all you require 5 deci-binaries to form the required 153.
+n = "3271"
+3 - 1 1 1 0 0 0 0
+2 - 1 1 0 0 0 0 0
+7 - 1 1 1 1 1 1 1
+1 - 1 0 0 0 0 0 0
+
+Now after grouping digits at same index:
+1111 + 1110 + 1010 + 0010 + 0010 + 0010 + 0010 = 3271
+Here we requred 7 deci-binaries.
+
+observe:the minimum number of deci-binaries required is the max digit in the input n.
+----------------------
+class Solution {
+public:
+    int minPartitions(string n) {
+        return *max_element(n.begin(), n.end()) - '0';
+    }
+};
+------------------------
+class Solution {
+public:
+    int minPartitions(string n) 
+    {
+        int m=0;
+    
+        for(auto x:n)
+        {
+            
+            int z=x-48;
+            m=max(z,m);
+        }   
+        return m;
+    }
+};
+-----------------------
+time complexity=O(n)

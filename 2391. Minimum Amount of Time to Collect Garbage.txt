@@ -1,0 +1,48 @@
+class Solution {
+public:
+    int garbageCollection(vector<string>& garbage, vector<int>& travel) 
+    {
+        int gc=0,mc=0,pc=0,k=0,f=0,g=0,tg=0,tp=0,tm=0;
+        
+        for(int i=0;i<garbage.size();i++)
+        {
+            if(garbage[i].find("G")!=string::npos)
+            {
+                gc=i;
+                for(int j=0;j<garbage[i].size();j++)
+                    if(garbage[i][j]=='G')
+                        k++;
+            }
+            if(garbage[i].find("P")!=string::npos)
+            {
+                pc=i;
+                for(int j=0;j<garbage[i].size();j++)
+                    if(garbage[i][j]=='P')
+                        f++;
+            }    
+            if(garbage[i].find("M")!=string::npos)
+            {
+                mc=i;
+                for(int j=0;j<garbage[i].size();j++)
+                    if(garbage[i][j]=='M')
+                        g++;
+            }
+        }
+        
+        while(gc--)
+        {    
+            tg=tg+travel[gc];
+        }
+            
+        while(pc--)
+        {   
+            tp=tp+travel[pc];
+        }
+        while(mc--)
+         {   
+            tm=tm+travel[mc];
+        }
+        
+        return (tg+tp+tm+k+f+g);
+    }
+};

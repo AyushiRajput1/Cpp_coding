@@ -1,9 +1,9 @@
-class Solution {
+class Solution {//O(n)
 public:
     int minAddToMakeValid(string s) 
     {
         stack<char> st;
-       int c=0;
+        int c=0;
         for(auto i:s)
         {
             if(st.empty()==1 || i=='(')
@@ -14,5 +14,21 @@ public:
                 c++;
         }
         return(c+st.size());        
+    }
+};
+---------------------------------
+class Solution {
+public:
+    int minAddToMakeValid(string s) 
+    {
+        stack<char> st;
+        for(auto i:s)
+        {
+            if(i==')' && st.size()>0 && st.top()=='(')
+                st.pop();
+            else
+                st.push(i); 
+        }
+        return (st.size());        
     }
 };

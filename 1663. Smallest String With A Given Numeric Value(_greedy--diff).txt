@@ -1,0 +1,17 @@
+class Solution {
+public:
+    string getSmallestString(int n, int k) 
+    {
+        string str="";
+        for(int i=n-1;i>=0;i--)
+        {
+            int v=min(26,k-i);
+            char ch=(char)v+'a'-1;
+            str+=ch;
+            k=k-v;
+        }
+        sort(str.begin(),str.end());
+     return str;
+
+    }
+};

@@ -1,0 +1,91 @@
+#include<bits/stdc++.h>
+using namespace std;
+class btree
+{
+    public: 
+    int data;
+     btree* lc;
+     btree* rc;
+
+    btree(int d)
+    {
+        data=d;
+        lc=NULL;
+        rc=NULL;
+    }
+} ;
+ 
+btree* insert(btree *root)
+{
+    int d;
+            cout<<"Enter data : "<<endl;
+            cin>>d;
+            root=new btree(d);
+            
+            if(d==-1)
+                return NULL;
+
+            cout<<"Enter data for left child of "<<d<<endl;
+            root->lc = insert(root->lc);
+
+            cout<<"Enter data for right child of "<<d<<endl;
+            root->rc = insert(root->rc);
+    return root;
+}
+
+   
+    void inorder(btree *root)
+    {
+        if(root->lc!=NULL)
+            inorder(root->lc);
+        cout<<root->data<<endl;
+        if(root->rc!=NULL)
+            inorder(root->rc);   
+    }
+    
+    
+    btree * mirror(btree * root)
+    {
+        if(root!=NULL)
+        {
+            if(root->lc!=NULL && root->rc!=NULL)
+            {
+                btree* p=root->lc;
+                root->lc=root->rc;
+                root->rc=p;
+            }
+            if(root->lc!=NULL && root->rc==NULL)
+            {
+                root->rc= root->lc;
+                root->lc=NULL;
+            }
+            if(root->lc==NULL && root->rc!=NULL)
+            {
+                root->lc=root->rc;
+                root->rc=NULL;
+            }
+            if(root->lc)
+                mirror(root->lc);
+            if(root->rc)
+                mirror(root->rc);
+        }
+        return root;
+    }
+    
+int main()
+{
+ 
+    btree *root=NULL;
+
+    root=insert(root);
+    
+    cout<<"inorder: ";
+    inorder(root);
+    
+    root=mirror(root);
+    cout<<"After Mirroring inorder: ";
+    inorder(root);
+    return 0;
+}
+    
+    

@@ -1,0 +1,87 @@
+class Solution {//not working
+public:
+    void md(TreeNode* root,int &c) 
+    {
+        queue<TreeNode*> q;
+        q.push(root);
+        q.push(NULL);
+
+        while(!q.empty())
+        {
+            TreeNode* t=q.front();
+            q.pop();
+            if(t==NULL)
+            {
+                c++;
+                if(!q.empty())
+                    q.push(NULL);
+            }   
+            else
+            {
+                if(t->left)
+                    q.push(t->right);
+                if(t->right)
+                    q.push(t->right);
+            }   
+        
+        }
+    }
+    int maxDepth(TreeNode* root) 
+    {
+        int c=0;
+        if(root==NULL)
+        return 0;
+
+        md(root, c);
+        return c;
+    }
+};
+
+
+
+
+
+
+-----------------------------
+BFS
+Time Complexity: O (n)
+Space Complexity: O (n)
+
+class Solution {
+public:
+    int maxDepth(TreeNode* root) 
+    {
+      if(root==NULL)
+        return 0;
+        
+        int d=0;
+        queue<TreeNode*> q;
+        q.push(root);
+
+        while(!q.empty())
+        {
+            int size=q.size();
+            for(int i=0;i<size;i++)
+            {
+                TreeNode* t=q.front();
+                q.pop();
+                if(t->left)
+                    q.push(t->left);
+                if(t->right)
+                    q.push(t->right);
+                      
+            }
+            d++;
+        }
+        return d;
+    }
+};
+-------------------------------
+DFS
+Time Complexity: O (n)
+Space Complexity: O (h)
+
+int maxDepth(TreeNode* root) {
+		if (root==NULL) return 0; 
+		return max(maxDepth(root->left)+1, maxDepth(root->right)+1);
+}

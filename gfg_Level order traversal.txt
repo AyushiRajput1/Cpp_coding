@@ -21,3 +21,31 @@ class Solution
     return v; 
     }
 };
+-----------------------------------------
+vector<int> levelOrder(Node* node)
+{
+    vector<int> v;
+
+   if (!root)
+        return v;
+        
+   queue< Node*> q;
+     q.push(root);
+   while(!q.empty())
+   {
+       int size=q.size();
+       for(int i=0;i<size;i++)
+       {//traversing each leve through this for loop
+            Node* t=q.front();
+            q.pop();
+            v.push_back(t->data);
+            if(t->left)
+                q.push(t->left);
+             if(t->right)
+                q.push(t->right);
+                
+       }
+    
+   }
+   return v;
+}

@@ -1,0 +1,31 @@
+class Solution {
+//Time Complexity : O(N), where N is the number of nodes in the given Tree.
+//Space Complexity : O(M), where M is the maximum number of nodes at any level in the binary tree.
+
+public:
+    vector<double> averageOfLevels(TreeNode* root) 
+    {
+        vector<double> v;
+        queue<TreeNode*> q;
+        if(root==NULL)
+            return v;
+        q.push(root);
+        while(!q.empty())
+        {
+            double s=q.size(),avg=0;
+            for(int i=0;i<s;i++)
+            {
+                TreeNode* t=q.front();
+                q.pop();
+                if(t->left)
+                    q.push(t->left);
+                if(t->right)
+                    q.push(t->right);
+                avg=avg+t->val;
+            }
+            v.push_back((avg/s));
+
+        }
+        return v;
+    }
+};

@@ -1,0 +1,55 @@
+class Solution{
+  public:
+  
+    bool check(Node* root)
+    {
+        Node* p=NULL;
+        queue<pair<Node*,int>> q;
+        map<int,int> m;
+        int c=0;
+       
+       q.push(make_pair(root,0));
+       q.push(make_pair(p,c));
+      
+
+       while(!q.empty())
+       {
+           auto j=q.front();
+           Node* t=j.first;
+           int y=j.second;
+           q.pop();
+           
+           if(t==NULL)
+           {
+               c++;
+               if(!q.empty())
+                    q.push(make_pair(p,0));
+           }
+           else
+           {
+               if(t->left)
+                    q.push(make_pair(t->left,c+1));
+                    
+                if(t->right)
+                    q.push(make_pair(t->right,c+1));
+                
+                if((t->left==NULL) && (t->right==NULL))
+                   m[t->data]=c;
+                
+           }
+           
+       }
+       
+        int y=(*m.begin()).second;
+           
+      for(auto i:m)
+      {
+          if(i.second!=y)
+          {     return 0; 
+                
+          }
+      } 
+       
+       return 1;
+    }
+};

@@ -1,0 +1,21 @@
+int sum(Node* root)
+{
+    if(!root)
+        return 0;
+    
+    int l=sum(root->left);
+    int r=sum(root->right);
+    
+    int s=root->data+l+r;
+    root->data=l+r;
+    
+    return s;
+}
+class Solution {
+  public:
+  
+    void toSumTree(Node *node)
+    {
+        sum(node);
+    }
+};

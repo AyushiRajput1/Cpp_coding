@@ -1,0 +1,46 @@
+class Solution {
+public:
+    int minDepth(TreeNode* root) 
+    {
+        queue<pair<TreeNode*,int>> q;
+        TreeNode* x=NULL;
+        int c=1;
+
+        if(root==NULL)
+            return 0;
+        if(root->left==NULL && root->right==NULL)
+            return 1;
+
+        q.push(make_pair(root,c));
+        q.push(make_pair(x,0));
+
+        while(!q.empty())
+        {
+            auto i=q.front();
+            TreeNode* t=i.first;
+            int y=i.second;
+            q.pop();
+
+            if(t==NULL)
+            {
+                c++;
+                q.push(make_pair(x,0));
+
+            }
+            else
+            {
+                if(t->left==NULL && t->right==NULL)
+                {
+                    return c;
+                }
+                if(t->left)
+                    q.push(make_pair(t->left,c+1));
+
+                if(t->right)
+                    q.push(make_pair(t->right,c+1));
+            }
+        }
+        return c;
+    }
+};
+Console

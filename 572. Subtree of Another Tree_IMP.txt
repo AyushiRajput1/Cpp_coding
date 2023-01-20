@@ -1,0 +1,29 @@
+class Solution {
+public:
+        bool same(TreeNode* r, TreeNode* s)
+        {
+            if((r==NULL && s!=NULL)||(s==NULL && r!=NULL))
+                return false;
+            if(r==NULL && s==NULL)
+                return true;
+            if(r->val==s->val)//if value of r and s are same
+                return same(r->left,s->left) && same(r->right,s->right);//check with left child and right child of r and s whether they are same or not 
+           
+            return false;
+        }
+
+    bool isSubtree(TreeNode* root, TreeNode* subRoot) 
+    {
+        if((root==NULL &&subRoot!=NULL)||(subRoot==NULL && root!=NULL))
+            return false;
+        if(root==NULL && subRoot==NULL)
+            return true;
+        if(same(root,subRoot))//pass root and subroot to check 
+            return true;
+        else//root and subroot value are not same so find in root's left subtree and its right subtree
+        {
+            return (isSubtree(root->left,subRoot)||isSubtree(root->right,subRoot));
+        }
+        return false;
+    }
+};

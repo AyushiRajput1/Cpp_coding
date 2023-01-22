@@ -1,0 +1,33 @@
+class Solution
+{
+    public:
+    int sum(Node* root)
+    {
+        int l=0,r=0;
+        if(root==NULL)
+            return 0;
+        if(root->left==NULL && root->right==NULL)
+            return root->data;
+        if(root->left)
+            l=sum(root->left);
+        if(root->right)
+            r=sum(root->right);
+        if(l+r==root->data)
+            return(root->data+l+r);
+        else
+            return -999;
+    }
+    bool isSumTree(Node* root)
+    {
+        int x=0,y=0;
+        if(root==NULL)
+            return true;
+        if(root->left==NULL && root->right==NULL)
+            return true;
+        x=sum(root->left);
+        y=sum(root->right);
+        if(x+y==root->data)
+            return true;
+        return false;
+    }
+};

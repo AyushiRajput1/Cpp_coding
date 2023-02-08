@@ -1,0 +1,36 @@
+class Solution {
+public:
+
+    vector<TreeNode*> allPossibleFBT(int n) 
+    {
+        
+        vector<TreeNode*> res;
+        if(n==1)
+        {
+            res.push_back(new TreeNode(0));
+            return res;
+        }
+        if(n%2==0 || n<1)
+            return res;
+        vector<TreeNode*> l;
+        vector<TreeNode*> r;
+
+        for(int i=1;i<n;i=i+2)
+        {
+            l=allPossibleFBT(i);
+            r=allPossibleFBT(n-i-1);  
+
+            for(auto &i:l)
+            {
+                for(auto &j:r)
+                {
+                    TreeNode* t=new TreeNode(0);
+                    t->left=i;
+                    t->right=j;
+                    res.push_back(t);
+                }
+            }
+        }
+        return res;
+    }
+};

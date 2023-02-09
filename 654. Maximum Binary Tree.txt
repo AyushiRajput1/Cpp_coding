@@ -1,0 +1,24 @@
+class Solution {
+public:
+TreeNode* constructMaximumBinaryTree(vector<int>& nums) 
+{
+   if(nums.size()==0)
+    return NULL;
+
+    vector<int>::iterator itr;
+    int x=*max_element(nums.begin(),nums.end());
+    itr=find(nums.begin(),nums.end(),x);
+    int j=itr-nums.begin();
+
+    TreeNode* r=new TreeNode;
+    r->val=x;
+
+    vector<int> p(nums.begin(),nums.begin()+j);
+    vector<int> s(nums.begin()+j+1,nums.end());
+    
+    r->left=constructMaximumBinaryTree(p);
+    r->right=constructMaximumBinaryTree(s);
+    
+    return r;
+    }
+};

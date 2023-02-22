@@ -1,0 +1,78 @@
+Approach
+Step 1:- Take a map data Structure that will store the address of each of the nodes formed with their values.
+
+Step 2:- Iterate over the given 2D matrix(edgeRelationArray) and see if the parentNode is present in the map or not.
+
+If the parentNode is present in the map then there is no need of making a new node, Just store the address of the parentNode in a variable.
+If the parentNode is not present in the map then form a parentNode of the given value and store its address in the map. (Because this parentNode can be the childNode of some other Node).
+Step 3:- Repeat Step 2 for child Node also i.e.,
+
+If the childNode is present in the map then there is no need of making a new node, Just store the address of the childNode in a variable.
+If the childNode is not present in the map then form a childNode of the given value and store its address in the map(Because this childNode can be the parentNode of some other Node).
+Step 4:- Form the relation between the parentNode and the childNode for each iteration depending on the value of the third value of the array of each iteration. i.e.,
+
+If the third value of the array in the given iteration is 1 then it means that the childNode is the left child of the parentNode formed for the given iteration.
+If the third value of the array in the given iteration is 0 then it means that the childNode is the left child of the parentNode formed for the given iteration.
+Now here comes a little thinking. We have all the addresses of every node in the map. But How to determine the parentNode.
+
+We can use the concept of the Tree itself. If carefully observed we know that the root node is the only node that has no Parent.
+
+Step 5:- So we can store all the values of the childNode that is present in the given 2D matrix (edgeRelationArray) in a data structure (let's assume a map data structure).
+
+Step 6:- Again iterate the 2D matrix (edgeRelationArray) to check which parentNode value is not present in the map dataStructure formed in step 5).
+
+Complexity
+Time complexity:O(N) where N is the number of rows present in the 2D matrix
+
+Space complexity: O(M) where M is the number of nodes present in the Tree (We are storing the nodes values along with its address in the map).
+
+Code
+class Solution {
+public:
+  TreeNode* createBinaryTree(vector<vector<int>>& descriptions) {
+    map<int, TreeNode*> mp;
+    for (auto it : descriptions) {
+      TreeNode* parentNode, * childNode;
+
+      // Finding the parent Node
+      if (mp.find(it[0]) != mp.end()) {
+        parentNode = mp[it[0]];
+      }
+      else {
+        parentNode = new TreeNode(it[0]);
+        mp[it[0]] = parentNode;
+      }
+
+      // Finding the child Node
+      if (mp.find(it[1]) != mp.end()) {
+        childNode = mp[it[1]];
+      }
+      else {
+        childNode = new TreeNode(it[1]);
+        mp[it[1]] = childNode;
+      }
+
+      // Making the Edge Between parent and child Node
+      if (it[2] == 1) {
+        parentNode->left = childNode;
+      }
+      else {
+        parentNode->right = childNode;
+      }
+    }
+
+    // Store the childNode 
+    map<int, int> storeChild;
+    for (auto it : descriptions) {
+      storeChild[it[1]] = 1;
+    }
+    // Find the root of the Tree
+    TreeNode* root;
+    for (auto it : descriptions) {
+      if (storeChild.find(it[0]) == storeChild.end()) {
+        root = mp[it[0]];
+      }
+    }
+    return root;
+  }
+};

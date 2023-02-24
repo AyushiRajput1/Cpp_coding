@@ -1,0 +1,68 @@
+//Time complexity: O(N)
+//Space complexity: O(N)
+
+class BSTIterator {
+public:
+    vector<int> v;
+    int i=0;
+    BSTIterator(TreeNode* root) 
+    {
+        inorder(root);
+    }
+    void inorder(TreeNode* root)
+    {
+        if(root->left)
+            inorder(root->left);
+        v.push_back(root->val);
+        if(root->right)
+            inorder(root->right);
+    }
+
+    int next() 
+    {
+        return v[i++];        
+    }
+    
+    bool hasNext() 
+    {
+        if(i<v.size())
+            return true;
+        else
+            return false;
+    }
+};
+
+//Could you implement next() and hasNext() to run in average O(1) time and use O(h) memory, where h is the height of the tree
+https://leetcode.com/problems/binary-search-tree-iterator/solutions/1430547/c-simple-solution-using-stack-o-h-time-complexity-with-diagrammatic-explanation/?orderBy=most_votes&languageTags=cpp
+class BSTIterator {
+public:
+    stack<TreeNode*> s;
+    BSTIterator(TreeNode* root)
+    {
+       Partialinorder(root);
+    }
+    
+    void Partialinorder(TreeNode* root)
+    {
+        while(root!=NULL)
+        { s.push(root);
+        root=root->left;}   
+    }
+
+    int next() 
+    {
+        TreeNode* t=s.top();
+        s.pop();
+        Partialinorder(t->right);
+
+        return t->val;
+    }
+    
+    bool hasNext() 
+    {
+        return(!s.empty());
+    }
+};
+
+
+

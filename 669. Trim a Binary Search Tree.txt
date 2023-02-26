@@ -1,3 +1,6 @@
+/*We just check if the root's value is in range, if it is, we check for the other sub-children and return the root as it is, if it is not, and is lets say, less than the limit, means all the numbers on the left subtree will be less too, hence we ignore the left subtree and replace the current root pointer by the right subtree and check if it is all valid. Vice versa for if the value is greater than the limit. If the subtree to replace the node does not exist, we just replace it via NULL pointer.
+/*
+
 Intuition
 We can solve this problem using DFS + Binary Search Tree. (Recursive Approach).
 

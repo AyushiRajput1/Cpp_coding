@@ -1,0 +1,120 @@
+class Solution {
+public:
+    bool isEvenOddTree(TreeNode* root) 
+    {
+        queue<pair<TreeNode*,int>> q;
+        q.push(make_pair(root,0));
+        TreeNode *node;
+
+        if(root->val%2==0)
+            return false;
+
+        while(!q.empty())
+        {
+            int size=q.size();
+
+            for(int i=0;i<size;i++)
+            {
+                auto k=q.front();
+                TreeNode* t=k.first;
+                int j=k.second;
+                q.pop();
+
+                if(!q.empty())
+                {
+                    auto z=q.front();
+                    node=z.first;
+                    int l=z.second;
+                    
+                    if((l==j)&&(j%2==0))
+                    {
+                        if(t->val>=node->val)
+                            return false;
+
+                        if(t->val%2==0)
+                            return false;
+                        
+                    }
+
+                    else if((l==j)&&(j%2!=0))
+                    {
+                        if(t->val<=node->val)
+                            return false;
+
+                        if(t->val%2!=0)
+                            return false;
+                    }
+                    
+                }
+            
+                if(((j%2!=0)&&(t->val%2!=0))||((j%2==0)&&(t->val%2==0)))//if only one node in queue
+                        return false;
+                
+                
+                if(t->left)
+                    q.push(make_pair(t->left,j+1));
+                
+                if(t->right)
+                    q.push(make_pair(t->right,j+1));
+
+                
+            }
+        }
+       return true; 
+    }
+};
+
+----------------------------------------------------------
+class Solution {
+public:
+    bool isEvenOddTree(TreeNode* root) {
+        //bsf traversal
+        //check if tree is empty
+        if(!root)
+            return {};
+        queue<TreeNode* > q;
+        q.push(root);
+        int level=0;
+        while(!q.empty()){
+            int count=q.size();
+            //initially min in even level is INT_MIN
+            //initially max in odd level is INT_MAX
+            int min=INT_MIN;
+            int max=INT_MAX;
+            for(int i=0;i<count;i++){
+                TreeNode *curr=q.front();
+                
+                //if level is even check if there is a value which is not odd of order is not strictly increasing
+                if(level%2==0){
+                    if(((q.front()->val)%2==0 )|| min>=q.front()->val){
+                        return false;
+                    }
+                    min=q.front()->val; 
+                }
+                
+                //if level is off check if thre is a value which is no even or order is not strictly decreasing
+                else{
+                    if(((q.front()->val)%2!=0)||max<=q.front()->val){
+                        return false;
+                    }
+                    max=q.front()->val;
+                }
+                
+                // pop out values in each level & puch left & right child
+                q.pop();
+                if(curr->left!=NULL)
+                    q.push(curr->left);
+                if(curr->right!=NULL)
+                    q.push(curr->right);
+                   
+               } 
+            
+            // increasing level after completing current level
+                level++;
+                
+                
+            }
+        return true;
+      
+    }
+};

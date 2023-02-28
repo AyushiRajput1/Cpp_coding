@@ -1,0 +1,41 @@
+class Solution {
+public:
+    // to find x-valued node
+    void preorder(TreeNode* root, int x, TreeNode*& b){
+        if(!root){
+            return;
+        }
+        
+        preorder(root->left,x,b);
+        if(root->val == x){
+            b=root;
+            return;
+        }
+        preorder(root->right,x,b);
+    }
+    // To count number of nodes
+    int count(TreeNode* root){
+        if(!root){
+            return 0;
+          }
+        int lt = count(root->left);
+        int rt = count(root->right);
+        return lt+rt+1;
+    }
+    bool btreeGameWinningMove(TreeNode* root, int n, int x) {
+        TreeNode* b;
+        preorder(root,x,b);  // first find the reference of x-value node
+        int c = count(b);  // count number of nodes in its subtree
+        
+        // To win we need to either capture the parent, left child or right child
+        
+        int c1 = count(b->left);  // capturing left child subtree count of nodes
+        int c2 = count(b->right);  // capturing right child subtree count of nodes
+        
+        
+        if((n-c)>c||c1>(n-c1)||c2>(n-c2)){  // any of these is more than nodes under x
+            return true;   // yayy u won
+        }
+        return false;   // oops u loose
+    }
+};

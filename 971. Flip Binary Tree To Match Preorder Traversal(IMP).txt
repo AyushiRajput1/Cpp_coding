@@ -1,41 +1,28 @@
 class Solution {
 public:
-    vector<int> v;
-    int i=0,f=0;
-    void match(TreeNode* root,vector<int> voyage)
+ int index=0;
+ vector<int>res;
+
+    bool func(TreeNode* root, vector<int>& voyage)
     {
-        if(!root)//if root is NULL return
-            return;
-
-        if(root->val!=voyage[i])//if root val is different then flipping will cause no difference so not possible
+        if(root==NULL)
+            return true;
+        if(root->val!=voyage[index++])
+            return false;
+        if(root->left!=NULL && root->left->val!=voyage[index])
         {
-            f=1;
-            v.push_back(-1);
-            return;
-        }
-
-        i++;//if above condition is not true increment i to match next voyage value with tree node
-         
-        if(i < voyage.size() && root->left && voyage[i]!=root->left->val)
-        {
-            TreeNode* temp = root->left;
-            root->left=root->right;
-            root->right=temp;
-            v.push_back(root->val);
-        }
-        match(root->left,voyage);//check with left subtree
-        match(root->right,voyage);//check with right subtree
-        
+            res.push_back(root->val);
+            return (func(root->right,voyage) && func(root->left,voyage));
+        }  
+        return (func(root->left,voyage) && func(root->right,voyage));  
     }
+    
     vector<int> flipMatchVoyage(TreeNode* root, vector<int>& voyage) 
     {
-        if(!root) 
-            return {};
-
-        match(root,voyage);
-        if(f) 
-            return {-1};
-        return v;
-
+        
+        if(func(root,voyage))
+            return res;
+            
+       return {-1};
     }
 };

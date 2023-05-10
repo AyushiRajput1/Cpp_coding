@@ -1,0 +1,15 @@
+//Time complexity:
+//Using normal recursion takes O(2^N)
+//Space complexity:
+//Using normal recursive takes O(N)+O(Recursive Cost)
+
+class Solution {
+public:
+    int fib(int n) 
+    {
+        if(n==1 || n==0)
+            return n;
+        else
+            return (fib(n-1)+fib(n-2));
+    }
+};

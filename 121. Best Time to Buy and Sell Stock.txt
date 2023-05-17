@@ -1,0 +1,35 @@
+//brute force-O(N^2)-time limit exceed
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) 
+    {
+        int m=0;
+        for(int i=0;i<prices.size();i++)
+        {
+            for(int j=i+1;j<prices.size();j++)
+            {
+                if(i!=j && prices[j]>prices[i])
+                    m=max(m,prices[j]-prices[i]);
+            }
+        }
+        return m;
+        
+    }
+};
+
+//optimized
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) 
+    {
+        int m=INT_MAX,mx_p=INT_MIN;
+        for(int i=0;i<prices.size();i++)
+        {
+           m=min(m,prices[i]);
+           mx_p=max(mx_p,prices[i]-m);
+        }
+        return mx_p;
+        
+    }
+};

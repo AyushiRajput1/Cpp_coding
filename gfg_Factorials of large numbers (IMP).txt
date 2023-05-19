@@ -1,0 +1,24 @@
+//int,long int ,long long int cant store factorial of 10^3 so we use a vector to store
+//TC:O(N)
+
+int fact(int n)
+    {
+        if(n==1||n==0)
+            return n;
+        else
+            return n*fact(n-1);
+    }
+    vector<int> factorial(int N)
+    {
+        vector<int> v;
+       int f=fact(N);
+       int n=f;
+       while(f!=0)
+       {
+           int r=f%10;
+           f=f/10;
+           v.push_back(r);
+       }
+       reverse(v.begin(),v.end());
+       return v;
+       

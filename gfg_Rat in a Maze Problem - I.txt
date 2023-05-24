@@ -1,0 +1,54 @@
+class Solution
+{
+	public:
+	    void solve(vector<vector<int>> m, int n, int i, int j, string s, vector<string> &ans)
+        {
+            //obstacle
+            if(m[i][j]==0)
+                return;//baktrack when not allowed to move
+                
+            //base case
+            if(i==n-1 && j==n-1)
+            {
+                ans.push_back(s);
+                return;
+            }
+            
+            
+            m[i][j]=0;//we are visiting thi so making it zero as no cell can be visited more than one time
+            
+
+
+	    //we have four move
+            //left
+            if(j>0)
+            {
+                solve(m,n,i,j-1,s+'L',ans);
+            }
+            //right
+            if(j<n-1)
+            {
+                solve(m,n,i,j+1,s+'R',ans);
+            }
+            //down
+            if(i<n-1)
+            {
+                solve(m,n,i+1,j,s+'D',ans);
+            }
+            //up
+            if(i>0)
+            {
+                solve(m,n,i-1,j,s+'U',ans);
+            }
+            m[i][j]=1;//ek way ko travel krne ke liye m[i][j] zero kia tha taaki ek baar travel ho but for next way m vaaps ise travel kr sku to make it 1
+            
+        }
+        
+        vector<string> findPath(vector<vector<int>> &m, int n) 
+        {
+            vector<string> ans;
+            string s = "";
+            solve(m, n, 0, 0, s, ans);
+            return ans;
+        }
+};

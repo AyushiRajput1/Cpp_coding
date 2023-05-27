@@ -1,0 +1,75 @@
+class Solution 
+{
+    public:
+
+    //Check if not in any row for particular column 
+
+    bool issafe(int grid[N][N],int r,int c,int no)
+    {
+        for(int i=0;i<N;i++)
+        {
+            if(grid[r][i]==no||grid[i][c]==no)
+                return false;
+        }
+        
+        int sx=(r/3)*3;
+        int sy=(c/3)*3;
+        
+        for(int x=sx;x<sx+3;x++)
+        {
+            for(int y=sy;y<sy+3;y++)
+            {
+                if(grid[x][y]==no)
+                    return false;
+            }
+        }
+        
+        return true;
+    }
+
+    bool solve(int grid[N][N],int i,int j)
+    {
+
+        if(i==N)
+            return true;
+
+         if(j==N)
+        {  //next row
+            return solve(grid,i+1,0);
+        }
+
+         if(grid[i][j]!=0)
+        {
+           //non-zero value
+            return solve(grid,i,j+1);
+        }
+
+        for(int no=1;no<=N;no++)
+        {
+            if(issafe(grid,i,j,no))
+            {
+                grid[i][j]=no;
+                if(solve(grid,i,j+1))
+                    return true;
+            }
+        }
+       grid[i][j]=0;
+       return false;
+
+    }
+
+    //Function to find a solved Sudoku. 
+    bool SolveSudoku(int grid[N][N])  
+    { 
+        return solve(grid,0,0);
+        
+    }
+    
+    //Function to print grids of the Sudoku.
+    void printGrid (int grid[N][N]) 
+    {
+         for(int i=0;i<N;i++)
+            for(int j=0;j<N;j++)
+                cout<<grid[i][j]<<" ";
+    }
+};

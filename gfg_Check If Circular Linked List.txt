@@ -1,0 +1,28 @@
+bool isCircular(Node *head)
+{
+   Node* temp=head,*p=head;
+   while(temp!=NULL)
+   {
+       temp=temp->next;
+       if(temp==head)
+            return true;
+   }
+   return false;
+}
+
+------------------------
+bool isCircular(struct Node *head)
+{
+    if(!head)
+        return true;
+    
+    struct Node *temp = head;
+    
+    while( head && head->next != temp )
+        head = head->next;
+    
+    if( !head || !(head->next) )
+        return false;
+    
+    return true;
+}

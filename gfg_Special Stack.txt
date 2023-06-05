@@ -1,0 +1,39 @@
+void push(stack<int>& s, int a)
+{
+	s.push(a);
+}
+
+bool isFull(stack<int>& s,int n)
+{
+	if(s.size()==n)
+	    return true;
+	else
+	    return false;
+	  
+}
+
+bool isEmpty(stack<int>& s)
+{
+	if(s.empty())
+	    return true;
+	else
+	    return false;
+}
+
+int pop(stack<int>& s)
+{
+    int x=s.top();
+    s.pop();
+    return x;
+}
+
+int getMin(stack<int>& s)
+{
+    int m=999999999;
+    while(s.size())
+    {
+        m=min(m,s.top());
+	    s.pop();
+	}
+	return m;
+}

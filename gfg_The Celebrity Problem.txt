@@ -1,0 +1,76 @@
+Time Complexity: O(N2), As a nested loop is run for traversing the matrix.
+Space Complexity: O(N), Since extra space of size N is required for indegree and outdegree array.
+
+class Solution 
+{
+    public:
+    //Function to find if there is a celebrity in the party or not.
+    int celebrity(vector<vector<int> > &M, int n) 
+    {
+        int c,x=-1;
+        for(int i=0;i<M.size();i++)
+        {
+            int flag=1;
+            for(int j=0;j<M[i].size();j++)
+            {
+                if(i!=j && (M[i][j]!=0 || M[j][i]!=1))
+                {
+                   flag=0;
+                   break;
+                }
+                else
+                {    
+                    c=i;
+                    continue;
+                }
+            }
+            if(flag==1)
+            {
+                x=c;
+            }
+        }
+        if(x!=-1)
+            return x;
+        else
+            return -1;
+    }
+};
+
+
+
+
+
+-----------------
+Time Complexity: O(N), As we running the loop for maximum of n times.
+Space Complexity: O(1), As no extra space is required.
+//Back-end complete function template for C++
+
+class Solution 
+{
+    public:
+    //Function to find if there is a celebrity in the party or not.
+    int celebrity(vector<vector<int> >& M, int n) 
+    {
+        //initializing two pointers for two corners.
+        int a = 0;
+        int b = n - 1;
+        
+        //we keep moving till the a<b. 
+        while (a < b) {
+            if (M[a][b])
+                a++;
+            else
+                b--;
+        }
+        
+        //checking if a is actually a celebrity or not.
+        for (int i = 0; i < n; i++)
+        {
+            //if any person doesn't know a or a knows any person, we return -1. 
+            if ( (i != a) && (M[a][i] || !M[i][a]) )
+                return -1;
+        }
+        //if we reach here a is celebrity so we retun a.
+        return a;
+    }
+};

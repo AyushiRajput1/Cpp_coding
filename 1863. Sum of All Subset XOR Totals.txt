@@ -1,0 +1,19 @@
+class Solution {
+public:
+    int recur(vector<int>&nums,int i,int curxor)
+    {
+        if(i==nums.size())
+            return curxor;
+        
+        int include=recur(nums,i+1,curxor^nums[i]);
+        int exclude=recur(nums,i+1,curxor);
+            
+            return include+exclude;
+    }
+    
+    int subsetXORSum(vector<int>& nums) 
+    {
+        int ans=recur(nums,0,0);
+        return ans;
+    }
+};

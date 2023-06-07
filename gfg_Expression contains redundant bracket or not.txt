@@ -1,0 +1,111 @@
+Time Complexity: O(N)
+Auxiliary Space: O(N)
+
+int main()
+{
+   string s="(a)+b";
+   stack<char> st;
+   
+   for(int i=0;i<s.length();i++)
+   {
+        int flag=0;
+        if (s[i]==')')
+        {
+            while(!st.empty() && st.top()!='(')
+            {
+                if((st.top()=='+')|| (st.top()=='-')||(st.top()=='*')||(st.top()=='/'))
+                    flag=1;
+                    
+                st.pop();
+                
+            }
+            if(flag==0)
+            {
+                cout<<"yes";
+                break;
+                //return true;
+            }
+        }
+        else
+            st.push(s[i]);
+   }
+   
+   //return false;
+    return 0;
+}
+
+----------------------
+optimized
+
+/C++ code to implement the above approach
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// Function to check if the given character is an operator
+// or not
+bool isOperator(char c)
+{
+    if (c == '+' || c == '-' || c == '*' || c == '/') {
+        return true;
+    }
+    return false;
+}
+ 
+// Function to check if the given string contains redundant
+// brackets or not
+bool hasRedundantBrackets(string str)
+{
+    int n = str.length();
+    int count = 0;
+ 
+    for (int i = 0; i < n; i++) {
+        if (str[i] == '(') {
+            count++;
+        }
+        else if (str[i] == ')') {
+            if (count <= 1) {
+                return true;
+            }
+            else {
+                count--;
+                while (i < n - 1
+                       && isOperator(str[i + 1])) {
+                    i += 2;
+                }
+            }
+        }
+        else if (isOperator(str[i])) {
+            continue;
+        }
+    }
+ 
+    return false;
+}
+ 
+// Driver code
+int main()
+{
+    string str = "((a+b))";
+ 
+    if (hasRedundantBrackets(str)) {
+        cout << "YES" << endl;
+    }
+    else {
+        cout << "NO" << endl;
+    }
+ 
+    return 0;
+}
+//This code is contributed by Veerendra_Singh_Rajpoot
+Output
+YES
+Explanation for the above code:
+
+In the hasRedundantBrackets function, we first initialize a counter count to keep track of the opening brackets. We then traverse the input string str from left to right. If we encounter an opening bracket, we increment the counter. If we encounter a closing bracket, we check if the counter is less than or equal to 1. If it is, then we have a redundant bracket. Otherwise, we decrement the counter and skip to the next non-operator character. If we encounter an operator, we simply continue to the next character. Finally, if we reach the end of the string and the counter is greater than 1, we return false since the expression does not have redundant brackets. Otherwise, we return true.
+
+In the main function, we first read the input string from the user and then call the hasRedundantBrackets function to check if the string contains redundant brackets or not. If it does, we print “YES”. Otherwise, we print “NO”.
+
+Time Complexity: O(n), The algorithm traverses the input string from left to right exactly once. Therefore, the time complexity of this algorithm is O(n), where n is the length of the input string.
+Auxiliary Space: O(1), The algorithm uses a constant amount of extra space to store the counter count and the index variable i. Therefore, the space complexity of this algorithm is O(1), which is a constant amount of space.
+
+

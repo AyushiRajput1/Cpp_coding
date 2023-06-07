@@ -1,0 +1,57 @@
+class Solution{
+public:
+    void insertBottom(stack <int> &St, int x)
+    {
+        if(St.empty())
+        {    St.push(x);
+            return;}
+        else{
+            int a=St.top();
+            St.pop();
+            insertBottom(St,x);
+            St.push(a);
+        }
+    }
+    void Reverse(stack<int> &St)
+    {
+        if(St.empty())
+            return;
+        
+            int x=St.top();
+            St.pop();
+            Reverse(St);
+            insertBottom(St,x);
+        
+        
+    }
+};
+-------------------------
+Expected Time Complexity: O(N)
+Expected Auxiliary Space: O(N)
+//Back-end complete function Template for C++
+
+class Solution{
+public:
+    void insert_at_bottom(stack<int> &St,int x){
+        if(St.size()==0){
+            St.push(x);
+        }
+        else{
+            int y=St.top();
+            St.pop();
+            insert_at_bottom(St,x);
+            St.push(y);
+        }
+    }
+    void fun(stack<int> &St){
+        if(St.size()>0){
+            int x=St.top();
+            St.pop();
+            fun(St);
+            insert_at_bottom(St,x);
+        }
+    }
+    void Reverse(stack<int> &St){
+        fun(St);
+    }
+};

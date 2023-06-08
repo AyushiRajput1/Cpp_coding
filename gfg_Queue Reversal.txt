@@ -1,0 +1,36 @@
+----Time limit exceed---
+queue<int> rev(queue<int> q)
+{
+    if(q.empty())
+        return q;
+    int a=q.front();
+    q.pop();
+    
+    q=rev(q);
+    
+    q.push(a);
+    
+    return q;
+}
+
+-------------------------------------------------------------------
+Time Complexity: O(N), As we need to insert all the elements in the stack and later to the queue, where N is the size of original queue.
+Space Complexity: O(N), As we are using stack to store values from initial queue of size N.
+----optimized----
+
+
+queue<int> rev(queue<int> q)
+{
+    stack<int> s;
+    while(!q.empty())
+    {
+        s.push(q.front());
+        q.pop();
+    }
+    while(!s.empty())
+    {
+        q.push(s.top());
+        s.pop();
+    }
+    return q;
+}

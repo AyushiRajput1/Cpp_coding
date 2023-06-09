@@ -1,0 +1,136 @@
+For every element find the closest element which contains 1. To find the closest element traverse the matrix and find the minimum distance.
+Complexity:
+Time Complexity: O(N2*M2). 
+For every element in the matrix, the matrix is traversed and there are N*M elements So the time complexity is O(N2*M2)
+Auxiliary Space Complexity: O(1)
+No extra space is required.
+
+class Solution 
+{
+    public:
+    //Function to find distance of nearest 1 in the grid for each cell.
+	vector<vector<int>>nearest(vector<vector<int>>grid)
+	{
+	    int n=grid.size();
+	    int m=grid[0].size();
+	    
+	    vector<vector<int>> r(n,vector<int>(m,INT_MAX));
+	    queue<pair<int,int>> q;
+	    
+	    
+	    for(int i=0;i<n;i++)
+	    {
+	        for(int j=0;j<m;j++)
+	        {
+	            if(grid[i][j]==1)
+	            {
+	                r[i][j]=0;
+	                q.push({i,j});
+	            }
+	        }
+	    }
+	    
+	    
+	    while(!q.empty())
+	    {
+	        int i=q.front().first;
+	        int j=q.front().second;
+	        
+	                if((i-1)>=0 && r[i][j]+1 < r[i-1][j])
+                    {
+                        r[i-1][j]=r[i][j]+1;
+                        q.push({i-1,j});
+                        
+                    }
+                    if((j-1)>=0 && r[i][j]+1 < r[i][j-1])
+                    {
+                       r[i][j-1]= r[i][j]+1;
+                       q.push({i,j-1});
+                    }
+                    if(j<(m-1) &&  r[i][j]+1< r[i][j+1])
+                    {
+                        r[i][j+1]=r[i][j]+1;
+                        q.push({i,j+1});
+                    }
+                    if(i<(n-1) && r[i][j]+1<r[i+1][j])
+                    {
+                        r[i+1][j]=r[i][j]+1;
+                        q.push({i+1,j});
+                    }
+                    q.pop();
+	    }
+	    
+	    
+	    return r;
+	    
+	}
+};
+
+
+
+----------------
+class Solution
+{
+    public:
+	vector<int>dx = {1,-1,0,0};
+	vector<int>dy = {0,0,1,-1};
+	
+	//Function to check whether the cell is within the matrix bounds.
+	bool isValid(int x, int y, int n, int m){
+		return (x >=0 and x < n and y >=0 and y < m);
+	}
+	
+	//Function to find distance of nearest 1 in the grid for each cell.
+	vector<vector<int>>nearest(vector<vector<int>>grid)
+	{
+		int n = grid.size();
+		int m = grid[0].size();
+		
+		//queue to store the cell indexes which have grid value 1.
+		queue<pair<int, int>>q;
+		
+		//using dp list which will store the output.
+		vector<vector<int>>dp(n, vector<int>(m, INT_MAX));
+		
+		//traversing all the cells of the matrix.
+		for(int i = 0; i < n; i++)
+		{
+			for(int j = 0; j < m; j++)
+			{
+			    //if grid value is 1, we update the dp value at same cell as 0 
+			    //and push the cell indexes into queue.
+				if(grid[i][j] == 1){
+					dp[i][j] = 0;
+					q.push({i,j});
+				}
+			}
+		}
+		
+		while(!q.empty())
+		{
+		    //storing the cell indexes at top of queue and popping them.
+			int x = q.front().first;
+			int y = q.front().second;
+			q.pop();
+			
+			//iterating over the adjacent cells.
+			for(int i = 0; i < 4; i++)
+			{
+				int n_x = x + dx[i];
+				int n_y = y + dy[i];
+				if(isValid(n_x, n_y, n, m) and dp[n_x][n_y] > dp[x][y] + 1)
+				{
+				    //updating dp and pushing cell indexes in queue.
+					dp[n_x][n_y] = dp[x][y] + 1;
+					q.push({n_x, n_y});
+				}
+			}
+		}
+		//returning the dp list.
+		return dp;
+	}
+};
+Time Complexity: O(N*M). 
+In BFS traversal every element is traversed only once so time Complexity is O(M*N).
+Space Complexity: O(M*N). 
+To store every element in the matrix O(M*N) space is required.

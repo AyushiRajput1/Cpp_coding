@@ -1,0 +1,63 @@
+Time Complexity: O(N^2)                        : The worst case occurs when all elements are sorted in increasing order.
+
+Auxiliary Space: O(1):  As constant extra space is used
+
+
+class Solution{
+    
+    public:
+    vector<int> help_classmate(vector<int> arr, int n) 
+    { 
+        vector<int> v;
+       for(int i=0;i<n;i++)
+       {
+           int flag=0;
+           for(int j=i+1;j<n;j++)
+           {
+               if(arr[j]<arr[i])
+                { 
+                    v.push_back(arr[j]);
+                    flag=1;
+                    break;
+                    
+                }
+                
+           }
+           if(flag==0)
+           {
+               v.push_back(-1);
+           }
+       }
+       return v;
+    } 
+};
+
+-------------------
+Time Complexity: O(N)    
+As we use only single for loop and all the elements in the stack are push and popped atmost once.
+Auxiliary Space: O(N)
+As extra space is used for storing the elements of the stack. 
+
+
+class Solution{
+    
+    public:
+    vector<int> help_classmate(vector<int> arr, int n) 
+    { 
+    	stack<int> s; 
+    	vector<int> result(n,-1);
+    	
+    	for (int i = 0; i < n; i++) { 
+    		if (s.empty()) { 
+    			s.push(i); 
+    			continue; 
+    		} 
+    		while (s.empty() == false && arr[s.top()] > arr[i]) { 
+    			result[s.top()] = arr[i];
+    			s.pop(); 
+    		} 
+    		s.push(i); 
+    	} 
+    	return result;
+    } 
+};

@@ -1,0 +1,114 @@
+class Solution {
+	public:
+		string FirstNonRepeating(string A)
+		{
+		    queue<char> q;
+		    string s;
+	            int flag=0;
+		    map<char,int> m;
+		   for(int i=0;i<A.size();i++)
+		   {
+		       flag=0;
+		       m[A[i]]++;
+		       q.push(A[i]);
+		       while(!q.empty())
+        	       {
+        	       char c=q.front();
+        	       if(m[c]==1)
+        	       {
+        	           s+=c;
+        	           flag=1;
+		           break;
+        	       }
+        	       else
+        	       {
+        	           q.pop();
+        	       }
+        	   }
+        	   
+		   if(flag==0)
+		      s+='#';
+
+		   flag=0;
+
+		}
+                return s;
+	}
+};
+
+
+-------------------------------------
+Expected Time Complexity: O(26 * n)
+Expected Space Complexity: O(26)
+
+class Solution {
+	public:
+		string FirstNonRepeating(string A)
+		{
+		   map<char,int>mp;
+		   vector<char>v;
+		   int n = A.size();
+		   int cnt=0;
+		   string ans="";
+		   for(int i =0;i<n;i++)
+		  {
+		       mp[A[i]]+=1;
+		       if(mp[A[i]]==1)
+		            v.push_back(A[i]);
+		       int k =0;
+		       for(int i =cnt;i<v.size();i++)
+		       {
+		           if(mp[v[i]]==1){
+		               cnt=i;
+		               ans.push_back(v[i]);
+		               k=1;
+		               break;
+		           }
+		       }
+		       if(k==0){
+		           ans.push_back('#');
+		       }
+		   }
+		   return ans;
+		
+		}
+
+};
+
+-------------------------------------------------
+class Solution {
+	public:
+		string FirstNonRepeating(string A)
+		{
+		    int n = A.size();
+		    vector<int>v(26, 0);
+		    queue<char> q;
+		    string s="";
+
+		    for(int i = 0; i < A.size(); i++)
+		    {
+		        int flag=0;
+		        q.push(A[i]);
+		        v[A[i] - 'a']++;
+		   
+
+		        while(!q.empty())
+		        {
+		            if(v[q.front()-'a']>1)
+				        q.pop();
+			        else
+			        {	
+				        s+=q.front();
+				        flag=1;
+				        break;
+			        }
+		        }
+		        if(flag==0)
+		            s+='#';
+		        
+		     }
+		    
+            	     return s;
+		}
+
+};

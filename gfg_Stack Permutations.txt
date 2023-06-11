@@ -1,0 +1,25 @@
+Time Complexity: O(N)
+Auxiliary Space: O(N)
+
+class Solution{
+public:
+    int isStackPermutation(int N,vector<int> &A,vector<int> &B)
+    {
+        stack<int> s;
+        int i=0,j=0;
+        
+        for(;j<N;j++)
+        {
+            s.push(A[j]);
+            while(!s.empty() && s.top()==B[i])
+            {
+                i++;
+                s.pop();
+            }
+            
+            
+        }
+        
+        return s.empty();
+    }
+};

@@ -1,0 +1,51 @@
+class Solution {
+public:
+    vector<vector<int>> overlappedInterval(vector<vector<int>>& intervals) 
+    {
+        vector<vector<int>> r;
+         sort(intervals.begin(),intervals.end());
+         r.push_back(intervals[0]);
+         int j=0;
+         for(int i=1;i<intervals.size();i++)
+         {
+             if(r[j][1]>=intervals[i][0])
+             {
+                r[j][1]=max(r[j][1],intervals[i][1]);
+                
+             }
+             else
+             {
+                 r.push_back(intervals[i]);
+                 j++;
+             }
+         }
+         return r;
+    }
+};
+--------------
+
+Expected Time Complexity: O(N*Log(N)).
+Expected Auxiliary Space: O(Log(N)) or O(N)
+
+class Solution {
+public:
+    vector<vector<int>> overlappedInterval(vector<vector<int>>& intervals) {
+        vector<vector<int>>ans;
+        if(intervals.size() == 0)
+            return ans;
+        sort(intervals.begin(), intervals.end());
+        int l = intervals[0][0];
+        int r = intervals[0][1];
+        for(int i = 1; i < intervals.size(); i++){
+            if(intervals[i][0] <= r)
+                r = max(r, intervals[i][1]);
+            else{
+                ans.push_back({l,r});
+                l = intervals[i][0];
+                r = intervals[i][1];
+            }
+        }
+        ans.push_back({l,r});
+        return ans;
+    }
+};

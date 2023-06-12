@@ -1,0 +1,179 @@
+//TC:O(N^2)
+//SC:O(1)
+//TLE
+class Solution
+{
+    public:
+    //Function to find largest rectangular area possible in a given histogram.
+    long long getMaxArea(long long arr[], int n)
+    {
+        int l=0,r=0;
+        long long ans=0;
+        for(int i=0;i<n;i++)
+        {
+            l=i,r=i;
+            
+            while(l>0 && arr[l-1]>=arr[i])
+            {
+                l--;
+                
+            }
+            //cout<<"l:"<<l<<endl;
+            while(r<n-1 && arr[r+1]>=arr[i])
+            {
+                r++;
+            }
+            //cout<<"r:"<<r<<endl;
+            ans=max(ans,(r-l+1)*arr[i]);
+            //cout<<"a:"<<ans<<endl;
+        }
+        return ans;
+    }
+};
+
+
+-------------------------------
+//optimized 
+vector<int> prevsmall(long long arr[],int n)
+{
+    stack<int> s;
+    vector<int> prev(n,-1);
+    
+    for(int i=n-1;i>=0;i--)
+    {
+        if(s.empty())
+            s.push(i);
+            
+        while((!s.empty() && s.top()!=-1) && (arr[s.top()]>arr[i]))
+        {
+            prev[s.top()]=i;
+            s.pop();
+        }
+        
+        s.push(i);
+    }
+    
+    return prev;
+}
+
+vector<int> nextsmall(long long arr[],int n)
+{
+    stack<int> s;
+    vector<int> next(n,-1);
+    
+    for(int i=0;i<n;i++)
+    {
+        if(s.empty())
+            s.push(i);
+            
+        while((!s.empty() && s.top()!=-1) && arr[s.top()]>arr[i])
+        {
+            next[s.top()]=i;
+            s.pop();
+        }
+        
+        s.push(i);
+    }
+    
+    return next;
+}
+
+class Solution
+{
+    public:
+    //Function to find largest rectangular area possible in a given histogram.
+    long long getMaxArea(long long arr[], int n)
+    {
+        
+        long long ans;
+        
+        vector<int> prev=prevsmall(arr,n);
+        vector<int> next=nextsmall(arr,n);
+        
+        for(int i=0;i<n;i++)
+        {
+            long long l=arr[i];
+            
+            if(next[i]==-1)
+                next[i]=n;
+                
+            long long b=next[i]-prev[i]-1;
+            
+            ans=max(ans,l*b);
+        }
+        return ans;
+    }
+};
+-------------------------
+
+Implementation
+Create an empty stack s.
+Start from the first bar, and do the following for every bar hist[i] where ‘i‘ varies from 0 to n-1
+If the stack is empty or hist[i] is higher than the bar at top of the stack, then push ‘i‘ to stack s. 
+If this bar is smaller than the top of the stack s, then keep removing the top of the stack while the top of the stack is greater. 
+Let the removed bar be hist[tp] (tp denotes top element of the stack). Calculate the area of the rectangle with hist[tp] as the smallest bar. 
+For hist[tp], the ‘left index’ is previous (previous to tp) item in stack and ‘right index’ is ‘i‘ (current index).
+If the stack s is not empty, then one by one remove all bars from the stack and do step (2.2 and 2.3) for every removed bar
+Complexity
+Time Complexity: O(N), Since every bar is pushed and popped only once
+Auxiliary Space: O(N), As we are using the stack for push and pop the element as mentioned above in the Implementation
+
+class Solution
+{
+    public:
+    //Function to find largest rectangular area possible in a given histogram.
+    long long getMaxArea(long long hist[], long long n){
+    
+    //creating an empty stack. The stack holds indexes of hist[] array.
+    //the bars stored in stack are always in increasing order of their heights. 
+    stack<long long> s; 
+  
+    long long max_area = 0;  
+    long long tp;  
+    long long area_with_top; 
+  
+    long long i = 0; 
+    
+    //traversing the array.
+    while (i < n) 
+    { 
+        //if current bar is greater than or equal to bar on top 
+        //of stack, we push the index into stack. 
+        if (s.empty() || hist[s.top()] <= hist[i]) 
+            s.push(i++); 
+  
+        //if current bar is lower than bar on top of stack, we calculate
+        //area of rectangle with top of stack as the smallest bar.  
+        //i is rightindex for top and element before top in stack is leftindex
+        else
+        { 
+            tp = s.top();  
+            //popping the top element of stack.
+            s.pop();  
+  
+            //calculating the area with hist[tp] stack as smallest bar. 
+            area_with_top=hist[tp]*(s.empty()? i :i-s.top()-1); 
+  
+            //updating maximum area, if needed. 
+            if (max_area < area_with_top) 
+                max_area = area_with_top; 
+        } 
+    } 
+  
+    //now popping the remaining bars from stack and calculating 
+    //area with every popped bar as the smallest bar.
+    while (s.empty() == false) 
+    { 
+        tp = s.top(); 
+        s.pop(); 
+        
+        area_with_top=hist[tp]*(s.empty()? i :i-s.top()-1); 
+  
+        //updating maximum area, if needed. 
+        if (max_area < area_with_top) 
+            max_area = area_with_top; 
+    } 
+    //returning the maximum area.
+    return max_area; 
+}
+};

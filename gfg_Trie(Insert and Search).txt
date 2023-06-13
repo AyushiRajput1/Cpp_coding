@@ -1,0 +1,60 @@
+void insertutil(struct TrieNode *root, string key)
+{
+   
+    if(key.length()==0)
+    {
+        root->isLeaf=true;
+        return ;
+    }
+    
+    int i=key[0]-'a';
+    TrieNode* child;
+    
+    if(root->children[i]!=NULL)//present
+    {
+        child=root->children[i];
+    }
+    else//absent
+    {
+        child=new TrieNode();
+        root->children[i]=child;
+    }
+    
+    insertutil(child,key.substr(1));
+}
+
+
+//Function to insert string into TRIE.
+void insert(struct TrieNode *root, string key)
+{
+    insertutil(root,key);
+}
+
+bool searchutil(struct TrieNode *root, string key)
+{
+    if(key.length()==0)
+    {
+        return root->isLeaf;
+    }
+    
+    int i=key[0]-'a';
+    TrieNode* child;
+    
+    if(root->children[i]!=NULL)//present
+    {
+        child=root->children[i];
+    }
+    else//absent
+    {
+        return false;
+    }
+    
+    return searchutil(child,key.substr(1));
+}
+
+
+//Function to use TRIE data structure and search the given string.
+bool search(struct TrieNode *root, string key) 
+{
+   return  searchutil(root,key);
+}

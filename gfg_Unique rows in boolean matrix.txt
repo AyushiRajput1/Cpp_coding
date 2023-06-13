@@ -1,0 +1,237 @@
+class TrieNode
+{
+    public:
+    TrieNode* children[2];
+
+    TrieNode()
+    {
+        for(int i=0;i<2;i++)
+            children[i]=NULL;
+    }
+};
+
+
+class Solution
+{
+    public:
+
+    int insert(TrieNode *root,vector<int> word)
+    {
+        int inser=0;
+        TrieNode* child=root;
+        
+        for(int i=0;i<word.size();i++)
+        {
+           if(child->children[word[i]]==NULL)
+            {
+                child->children[word[i]]=new TrieNode();
+                inser++;
+            }
+            
+            child=child->children[word[i]];
+                
+        }
+        return inser;
+        
+    }
+    
+    
+    // #define MAX 1000
+    vector<vector<int>> uniqueRow(int M[MAX][MAX],int row,int col)
+    {
+       vector<vector<int>> r;
+       TrieNode *root=new TrieNode();
+    
+        for(int i=0;i<row;i++)
+        {
+            vector<int>temp;
+            for(int j=0;j<col;j++)
+                temp.push_back(M[i][j]);
+            
+            if(insert(root,temp)>0)
+                r.push_back(temp);
+            
+        }
+       return r;
+    }
+};
+----------------------------------------
+
+Method 3: This method uses Trie data structure to solve the above problem. 
+Trie is an efficient information retrieval data structure. Using Trie, search complexities can be brought to an optimal limit (key length). If we store keys in the binary search tree, a well-balanced BST will need time proportional to M * log N, where M is maximum string length and N is the number of keys in the tree. Using Trie, we can search the key in O(M) time. However, the penalty is on Trie storage requirements.
+
+Approach: 
+Since the matrix is boolean, a variant of Trie data structure can be used where each node will be having two children one 
+for 0 and other for 1. Insert each row in the Trie. If the row is already there, don't print the row. If the row is not 
+there in Trie, insert it in Trie and print it.
+
+Algorithm: 
+Create a Trie where rows can be stored.
+Traverse through the matrix and insert the row into the Trie.
+Trie cannot store duplicate entries so the duplicates will be removed
+Traverse the Trie and print the rows.
+
+Implementation: 
+
+// Given a binary matrix of M X N of integers, 
+// you need to return only unique rows of binary array 
+#include <bits/stdc++.h>
+using namespace std;
+#define ROW 4 
+#define COL 5 
+
+// A Trie node 
+class Node 
+{ 
+    public:
+    bool isEndOfCol; 
+    Node *child[2]; // Only two children needed for 0 and 1 
+} ; 
+
+
+// A utility function to allocate memory
+// for a new Trie node 
+Node* newNode() 
+{ 
+    Node* temp = new Node(); 
+    temp->isEndOfCol = 0; 
+    temp->child[0] = temp->child[1] = NULL; 
+    return temp; 
+} 
+
+// Inserts a new matrix row to Trie. 
+// If row is already present, 
+// then returns 0, otherwise insets the row and 
+// return 1 
+bool insert(Node** root, int (*M)[COL], 
+                int row, int col ) 
+{ 
+    // base case 
+    if (*root == NULL) 
+        *root = newNode(); 
+
+    // Recur if there are more entries in this row 
+    if (col < COL) 
+        return insert (&((*root)->child[M[row][col]]), 
+                                        M, row, col + 1); 
+
+    else // If all entries of this row are processed 
+    { 
+        // unique row found, return 1 
+        if (!((*root)->isEndOfCol)) 
+            return (*root)->isEndOfCol = 1; 
+
+        // duplicate row found, return 0 
+        return 0; 
+    } 
+} 
+
+// A utility function to print a row 
+void printRow(int(*M)[COL], int row) 
+{ 
+    int i; 
+    for(i = 0; i < COL; ++i) 
+        cout << M[row][i] << " "; 
+    cout << endl;
+} 
+
+// The main function that prints 
+// all unique rows in a given matrix. 
+void findUniqueRows(int (*M)[COL]) 
+{ 
+    Node* root = NULL; // create an empty Trie 
+    int i; 
+
+    // Iterate through all rows 
+    for (i = 0; i < ROW; ++i) 
+    
+        // insert row to TRIE 
+        if (insert(&root, M, i, 0))
+        
+            // unique row found, print it 
+            printRow(M, i); 
+} 
+
+// Driver Code
+int main() 
+{ 
+    int M[ROW][COL] = {{0, 1, 0, 0, 1}, 
+                       {1, 0, 1, 1, 0}, 
+                       {0, 1, 0, 0, 1}, 
+                       {1, 0, 1, 0, 0}}; 
+
+    findUniqueRows(M); 
+
+    return 0; 
+} 
+
+
+Complexity Analysis: 
+
+Time complexity: O( ROW x COL ). 
+To traverse the matrix and insert in the trie the time complexity is O( ROW x COL).
+This method has better time complexity. Also, the relative order of rows is maintained while printing but it takes a toll on space.
+
+Auxiliary Space: O( ROW x COL ). 
+To store the Trie O(ROW x COL) space complexity is needed.
+
+Method 4: This method uses HashSet data structure to solve the above problem. The HashSet class implements the Set interface,
+backed by a hash table which is actually a HashMap instance. No guarantee is made as to the iteration order of the set which
+means that the class does not guarantee the constant order of elements over time. This class permits the null element. 
+The class offers constant time performance for the basic operations like add, remove, contains and size assuming the hash
+function disperses the elements properly among the buckets. 
+
+Approach: In this method convert the whole row into a single String and then if check it is already present in the HashSet or not.
+If the row is present then we will leave it otherwise we will print unique row and add it to HashSet.
+
+Algorithm: 
+Create a HashSet where rows can be stored as a String.
+Traverse through the matrix and insert the row as String into the HashSet.
+HashSet cannot store duplicate entries so the duplicates will be removed
+Traverse the HashSet and print the rows.
+
+Implementation: 
+
+// C++ code to print unique row in a 
+// given binary matrix 
+#include<bits/stdc++.h> 
+using namespace std; 
+
+void printArray(int arr[][5], int row, 
+                              int col) 
+{ 
+    unordered_set<string> uset; 
+    
+    for(int i = 0; i < row; i++) 
+    { 
+        string s = ""; 
+        
+        for(int j = 0; j < col; j++) 
+            s += to_string(arr[i][j]); 
+        
+        if(uset.count(s) == 0) 
+        { 
+            uset.insert(s); 
+            cout << s << endl; 
+            
+        } 
+    } 
+} 
+
+// Driver code 
+int main()
+{ 
+    int arr[][5] = {{0, 1, 0, 0, 1}, 
+                    {1, 0, 1, 1, 0}, 
+                    {0, 1, 0, 0, 1}, 
+                    {1, 1, 1, 0, 0}}; 
+    
+    printArray(arr, 4, 5); 
+} 
+
+Complexity Analysis: 
+
+Time complexity: O( ROW x COL ). 
+To traverse the matrix and insert in the HashSet the time complexity is O( ROW x COL)
+Auxiliary Space: O( ROW ). 
+To store the HashSet O(ROW x COL) space complexity is needed.

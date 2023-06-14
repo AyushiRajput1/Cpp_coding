@@ -1,0 +1,79 @@
+class TrieNode
+{
+    public:
+    TrieNode* children[26];
+    int isterminal;
+    TrieNode()
+    {
+        for(int i=0;i<26;i++)
+            children[i]=NULL;
+        isterminal=-1;
+    }
+};
+
+
+class Solution
+{
+    public:
+    
+    
+    int insert(TrieNode *root,string word,int &angram_index)
+    {
+        TrieNode *temp=root;
+        
+        for(int i=0;i<word.size();i++)
+        {
+            char ch=word[i];
+            if(temp->children[ch-'a'] == NULL)
+               temp->children[ch-'a'] = new TrieNode();
+            
+            temp = temp->children[ch-'a'];
+                
+        }
+         
+        if(temp->isterminal == -1)
+            temp->isterminal = ++angram_index;
+        
+        
+        //As this lexical form of str has appeared prev
+        //so we need to append this str in the same row 
+        //that of its anagram. That row no. will be stored in isLeaf
+        return temp->isterminal;
+     
+    }
+    
+    
+    // #define MAX 1000
+    vector<vector<string> > Anagrams(vector<string>& string_list) 
+    {
+    
+       TrieNode *root=new TrieNode();
+       
+        int n = string_list.size();
+        vector<vector<string> > ans;
+        
+        int anagramIndex = -1;
+        
+        for(int i=0; i<n; i++)
+        {
+            string temp = string_list[i];
+            sort(temp.begin(), temp.end());
+            
+            int index = insert(root, temp, anagramIndex);
+            
+            
+            if(anagramIndex == ans.size()) 
+            {
+                //when str will form new group of anagram
+                ans.push_back(vector<string>(1, string_list[i]));
+            }
+            else
+            {
+                //when str is from any of previously formed group of anagram 
+                ans[index].push_back(string_list[i]);   
+            }
+        }
+        
+        return ans;
+    }
+};

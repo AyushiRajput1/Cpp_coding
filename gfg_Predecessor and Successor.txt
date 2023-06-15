@@ -1,0 +1,91 @@
+Time Complexity: O(N), As we visit all nodes recursively and also we are using a loop over the inorder array so time will be O(N).
+Auxiliary Space: O(N), As we are using an array of size N to store the inorder traversal.
+
+void inorder(Node *root, vector<Node*> &v)
+{
+    if(root==NULL)
+        return;
+    inorder(root->left,v);
+    v.push_back(root);
+    inorder(root->right,v);
+}
+// This function finds predecessor and successor of key in BST.
+// It sets pre and suc as predecessor and successor respectively
+class Solution
+{
+    public:
+    void findPreSuc(Node* root, Node*& pre, Node*& suc, int key)
+    {
+        vector<Node*> v;
+        inorder(root,v);
+        
+        pre=NULL,suc=NULL;
+        for(int i=0;i<v.size();i++)
+        {
+            if(v[i]->key<key)
+            {    
+                pre=v[i];
+            }
+        }
+        
+        for(int i=v.size()-1;i>-1;i--)
+        {
+            if(v[i]->key>key)
+            {    
+                suc=v[i];
+                
+            }
+            
+        }
+    }
+};
+
+-----------------
+optimal
+Time Complexity: O(H), where H is the height of the tree. In the worst case, we travel the whole height of the tree.
+Auxiliary Space: O(H), Space taken by the recursive stack.
+
+class Solution
+{
+    public:
+    void findPreSuc(Node* root, Node*& pre, Node*& suc, int key)
+    {
+    	// Base case
+    	if (root == NULL) return ;
+    
+    	// If key is present at root
+    	if (root->key == key)
+    	{
+    		// the maximum value in left subtree is predecessor
+    		if (root->left != NULL)
+    		{
+    			Node* tmp = root->left;
+    			while (tmp->right)
+    				tmp = tmp->right;
+    			pre = tmp ;
+    		}
+    
+    		// the minimum value in right subtree is successor
+    		if (root->right != NULL)
+    		{
+    			Node* tmp = root->right ;
+    			while (tmp->left)
+    				tmp = tmp->left ;
+    			suc = tmp ;
+    		}
+    		return ;
+    	}
+    
+    	// If key is smaller than root's key, go to left subtree
+    	if (root->key > key)
+    	{
+    		suc = root ;
+    		findPreSuc(root->left, pre, suc, key) ;
+    	}
+    	else // go to right subtree
+    	{
+    		pre = root ;
+    		findPreSuc(root->right, pre, suc, key) ;
+    	}
+    }
+};

@@ -1,0 +1,70 @@
+class Solution
+{
+    public:
+    bool solve(Node* root)
+    {
+        if(root->right==NULL && root->left==NULL)
+            return true;
+        if((root->right!=NULL && root->right->data <= root->data) || (root->left!=NULL && root->left->data >= root->data))
+        {
+            return false;
+            
+        }
+        else if(root->left!=NULL && root->left->data < root->data)
+            return isBST(root->left);
+        else if(root->right!=NULL && root->right->data > root->data)
+            return isBST(root->right);
+        
+    }
+    
+    void inorder(Node* root, vector<int> &i)
+    {
+        if(root==NULL)
+            return;
+        inorder(root->left,i);
+        i.push_back(root->data);
+        inorder(root->right,i);
+            
+    }
+    //Function to check whether a Binary Tree is BST or not.
+    bool isBST(Node* root) 
+    {
+        //1.for bst inorder is always in sorted order;
+        //2.for bst left < root and right> root;
+        vector<int> i;
+        inorder(root,i);
+        
+        vector<int> v(i);
+        sort(v.begin(),v.end());
+        
+        return (v==i)&&solve(root);//chk for left and
+    }
+};
+
+
+
+--------------------------------------------------------------------
+//optimal
+TC:O(N)
+sc:O(H)
+
+class Solution
+{
+    public:
+    bool solve(Node* root,int min, int max)
+    {
+        if(root==NULL)
+            return true;
+        
+        if(root->data>min && root->data<max)
+             return (solve(root->left,min,root->data) && solve(root->right,root->data,max));
+        else
+            return false;
+       
+    }
+    //Function to check whether a Binary Tree is BST or not.
+    bool isBST(Node* root) 
+    {
+       return solve(root,INT_MIN,INT_MAX);
+    }
+};

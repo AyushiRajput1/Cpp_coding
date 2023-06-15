@@ -1,0 +1,76 @@
+Expected Time Complexity: O(N)
+Expected Auxiliary Space: O(N)
+
+void inorder(Node* root,vector<Node*> &v)
+{
+    if(root==NULL)
+        return;
+        
+    inorder(root->left,v);
+    v.push_back(root);
+    inorder(root->right,v);
+}
+class Solution
+{
+public:
+
+    void populateNext(Node *root)
+    {
+        vector<Node*> v;
+        inorder(root,v);
+        
+        for(int i=0;i<v.size()-1;i++)
+        {
+            v[i]->next=v[i+1];
+        }
+        v[v.size()-1]->next=NULL;
+    }
+};
+
+-----------------------------------------------
+//Back-end complete function Template for C++
+
+class Solution
+{
+public:
+    void populateNextRecur(Node *p, Node **next_ref)
+    {
+        if (p)
+        {
+            populateNextRecur(p->right, next_ref);
+            p->next = *next_ref;
+            *next_ref = p;
+            populateNextRecur(p->left, next_ref);
+        }
+    }
+
+    void populateNext(Node *root)
+    {
+        Node *next = NULL;
+        populateNextRecur(root, &next);
+    }
+};
+
+-----------------------------
+class Solution
+{
+public:
+
+void helper(Node*root,Node*&prev)
+{
+    if(root==NULL)return;
+    helper(root->left,prev);
+    if(prev!=NULL){
+        prev->next=root;
+    }
+    prev=root;
+    helper(root->right,prev);
+}
+    void populateNext(Node *root)
+    {
+        //code here
+        Node*prev=NULL;
+        helper(root,prev);
+        
+    }
+};

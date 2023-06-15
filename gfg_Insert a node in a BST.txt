@@ -1,0 +1,38 @@
+//Expected Time Complexity: O(Height of the BST).
+//Expected Auxiliary Space: O(Height of the BST).
+
+Node* insert(Node* root, int key) 
+{
+    if(root==NULL)
+    {
+        Node* t=new Node(key);
+        root=t;
+        return root;
+    }
+    
+    if(root->data<key)
+        root->right=insert(root->right,key);
+    
+    else if(root->data>key)
+        root->left=insert(root->left,key);
+    
+    return root;
+}
+
+-----------------
+// Function to insert a node in a BST.
+Node* insert(Node* node, int data) {
+    // if node is null, we return a new node with given data.
+    if (node == NULL) return new Node(data);
+
+    // if given data is less than data at the current node, we call the
+    // function recursively to insert new node in left subtree.
+    if (data < node->data) node->left = insert(node->left, data);
+
+    // else if given data is more than data at the current node, we call the
+    // function recursively to insert new node in right subtree.
+    else if (data > node->data)
+        node->right = insert(node->right, data);
+
+    return node;
+}

@@ -1,31 +1,48 @@
 class Solution {
 public:
-    TreeNode* deleteNode(TreeNode* root, int key) {
-        if(root==NULL)
-            return NULL;
-        if(key < root->val)
-            root->left=deleteNode(root->left, key);
-        else if(key > root->val)
-            root->right=deleteNode(root->right, key);
-        else
+    
+    TreeNode* deleteNode(TreeNode* root, int key) 
+    {
+       if(root==NULL)
+           return root;
+        if(root->val > key)
         {
-            if(!root->left && !root->right)
+            root->left=deleteNode(root->left,key);
+            return root;
+        }
+        else if(root->val < key)
+        {
+            root->right=deleteNode(root->right,key);
+            return root;
+        }
+        else//value found
+        {
+            if(!root->left && !root->right)//No child
+            {
+                delete root;
                 return NULL;
-            if((!root->left)&&(root->right) || (!root->right)&&(root->left))
-            {
-                if(root->left)
-                    return root->left;
-                return root->right;
             }
-            else
+            if((!root->left && root->right) || (!root->right && root->left))//one child
             {
+                if(root->right)
+                    return root->right;
+                return root->left;
+                
+            }
+            else//two child
+            {
+                //root ke left se max value find kri and root ki jgh rkhi then delete node cal kia root ka left as root bheja and max vaali value as key bheji 
                 TreeNode* t=root->left;
                 while(t->right)
                     t=t->right;
+                
                 root->val=t->val;
-                root->left=deleteNode(root->left, t->val);
+                root->left=deleteNode(root->left,t->val);
             }
         }
+        
+        
         return root;
     }
+    
 };

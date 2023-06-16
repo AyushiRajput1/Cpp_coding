@@ -1,0 +1,39 @@
+Time Complexity: O(n), As we are just traversing the tree twice. Once in inorder traversal and then in construction of the balanced tree.
+Auxiliary space: O(n), The extra space is used to store the nodes of the inorder traversal in the vector. Also the extra space taken by recursion call stack is O(h) where h is the height of the tree.
+
+void inorder(Node* root,vector<int> &v)
+{
+    if(root==NULL)
+        return;
+        
+    inorder(root->left,v);
+    v.push_back(root->data);
+    inorder(root->right,v);
+    
+}
+
+Node* inordertobst(int s,int e,vector<int> &v)
+{
+    if(s>e)
+        return NULL;
+    
+    int mid=(s+e)/2;
+    Node* root=new Node(v[mid]);
+    
+    root->left=inordertobst(s,mid-1,v);
+    root->right=inordertobst(mid+1,e,v);
+    
+    return root;
+}
+// Your are required to complete this function
+// function should return root of the modified BST
+Node* buildBalancedTree(Node* root)
+{
+   
+    vector<int> v;
+    inorder(root,v);
+    
+    return inordertobst(0,v.size()-1,v);
+}
+
+

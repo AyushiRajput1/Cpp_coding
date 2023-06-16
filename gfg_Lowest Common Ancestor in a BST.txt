@@ -1,0 +1,107 @@
+Time complexity : As we are finding paths , so time complexity of the algorithm is O(H) , where H is the height of the BST.
+Space complexity: As we are storing the paths from node to root and taking a hash set. the space complexity of the solution is O(3*H) .where H is the height of the BST.
+
+vector<Node*> getpath(Node* root,int n)
+{
+    vector<Node*> path;
+    while(root!=NULL)
+    {
+        path.push_back(root);
+        if(root->data==n)
+        {
+            break;
+        }
+        
+        if(n > root->data)
+            root=root->right;
+        else if(n < root->data)
+            root=root->left;
+            
+    }
+    return path;
+}
+
+class Solution{
+    public:
+        Node* LCA(Node *root, int n1, int n2)
+        {
+           vector<Node*> p1,p2;
+           p1=getpath(root,n1);
+           p2=getpath(root,n2);
+           
+           unordered_set<Node*> s(p1.begin(),p1.end());
+           reverse(p2.begin(),p2.end());
+           
+           for(auto i:p2)
+           {
+               if(s.find(i)!=s.end())
+               {    
+                   return i;
+                   break;
+               }
+           }
+        }
+
+};
+
+--------------------------------
+Time complexity: O(H) , where H is the height of the tree.
+Space complexity : O(H), If recursive stack space is ignored, the space complexity of the above solution is constant.
+
+
+Node* solve(Node* root,int n1, int n2)
+{
+    if(root==NULL)
+        return NULL;
+        
+    if(root->data==n1 || root->data==n2)
+       return root;
+       
+    Node* leftans=solve(root->left,n1,n2);
+    Node* rightans=solve(root->right,n1,n2);
+    
+    if(leftans!=NULL && rightans!=NULL)
+        return root;
+    else if(leftans!=NULL && rightans==NULL)
+        return leftans;
+    else if(leftans==NULL && rightans!=NULL)
+        return rightans;
+    
+}
+
+class Solution{
+    public:
+        Node* LCA(Node *root, int n1, int n2)
+        {
+           return solve(root,n1,n2);
+        }
+
+};
+
+----------------------------------------
+class Solution{
+    public:
+        Node* LCA(Node *root, int n1, int n2)
+        {
+            // base case
+            if(root==NULL)
+                return NULL;
+            
+            //If both n1 and n2 are smaller than data at current node, we call 
+            //the function recursively for finding LCA in the left subtree. 
+            if(n1<root->data and n2<root->data)
+            {
+                return LCA(root->left,n1,n2);
+            }
+            //If both n1 and n2 are greater than data at current node, we call 
+            //the function recursively for finding LCA in the right subtree. 
+            if(n1>root->data and n2 > root->data)
+            {
+                return LCA(root->right,n1,n2);
+            }
+            
+            //returning the lowest common ancestor.
+            return root;
+        }
+
+};

@@ -1,0 +1,61 @@
+Time Complexity: O(N * N)
+Auxiliary Space: O(N)
+
+
+
+class Solution {
+public:
+   
+    TreeNode* insert(TreeNode* root,int key )
+    {
+        if(root==NULL)
+        {
+            TreeNode* n=new TreeNode(key);
+            root=n;
+            return root;
+        }
+        
+        if(key > root->val)
+            root->right=insert(root->right,key);
+        if(key < root->val)
+            root->left=insert(root->left,key);
+        
+        return root;
+    }
+    
+    
+    TreeNode* bstFromPreorder(vector<int>& preorder) 
+    {
+        TreeNode* root=new TreeNode(preorder[0]);
+        
+        for(int i=1;i<preorder.size();i++)
+            root=insert(root,preorder[i]);
+        
+        return root;
+    }
+};
+
+----------------------------------------------
+Time Complexity: O(N)
+Auxiliary Space: O(N)
+
+TreeNode* constructTree(vector<int>& preorder, int &i, int bound)
+    {
+        if(i==preorder.size() || preorder[i]>bound)
+            return NULL;
+        TreeNode* root=new TreeNode(preorder[i++]);
+        root->left= constructTree(preorder,i,root->val);
+        root->right= constructTree(preorder,i,bound);
+        
+        return root;
+    }   
+    
+    
+    TreeNode* bstFromPreorder(vector<int>& preorder) 
+    {
+        int i=0;
+        
+        return constructTree(preorder,i,INT_MAX);
+       
+    }
+};

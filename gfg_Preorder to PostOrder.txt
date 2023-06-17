@@ -1,0 +1,24 @@
+//Time Complexity: O(N), as we are traversing every node finite number of time.
+//Auxiliary Space: O(N), recursive stack.
+
+Node* solve(int size,int &i,int pre[],int bound)
+{
+    if(i==size || pre[i]>bound)
+        return NULL;
+        
+    Node* root=newNode(pre[i++]);
+    
+    root->left=solve(size,i,pre,root->data);
+    root->right=solve(size,i,pre,bound);
+    return root;
+}
+
+class Solution{
+public:
+    //Function that constructs BST from its preorder traversal.
+    Node* post_order(int pre[], int size)
+    {
+        int i=0;
+        return solve(size,i,pre,INT_MAX);
+    }
+};

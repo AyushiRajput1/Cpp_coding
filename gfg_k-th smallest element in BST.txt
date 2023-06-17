@@ -1,0 +1,66 @@
+//Time Complexity: O(N).
+//Auxiliary Space: O(N) -stack recursion
+
+void inorder(Node *root, int &k,int &n)
+{
+    if(root==NULL)
+    return;
+    
+    inorder(root->left,k,n);
+    k--;
+    if(k==0)
+    {    
+        n=root->data;
+        return;
+    }
+    inorder(root->right,k,n);
+        
+}
+
+class Solution {
+  public:
+    // Return the Kth smallest element in the given BST
+    int KthSmallestElement(Node *root, int k) 
+    {
+        int n=-1;
+        inorder(root,k,n);
+        return n;
+    }
+};
+------------------------
+//Time Complexity: O(N).
+//Auxiliary Space: O(1) 
+class Solution {
+  public:
+    int KthSmallestElement(Node *root, int k) {
+        Node *cur = root, *pre;
+
+        int ans = -1;
+
+        // Inorder morris traversal
+        // https://www.geeksforgeeks.org/inorder-tree-traversal-without-recursion-and-without-stack/
+        while (cur != NULL) {
+            if (cur->left == NULL) {
+                if (k == 1) ans = cur->data;
+                k--;
+                cur = cur->right;
+            } else {
+                pre = cur->left;
+
+                while (pre->right != NULL and pre->right != cur)
+                    pre = pre->right;
+
+                if (pre->right == NULL) {
+                    pre->right = cur;
+                    cur = cur->left;
+                } else {
+                    if (k == 1) ans = cur->data;
+                    k--;
+                    pre->right = NULL;
+                    cur = cur->right;
+                }
+            }
+        }
+        return ans;
+    }
+};

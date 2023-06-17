@@ -1,0 +1,57 @@
+// Time Complexity: O(N* log N)
+// Auxiliary Space: O(N)
+
+struct node
+{
+    int data;
+    node* left;
+    node* right;
+    
+    node(int x)
+    {
+        data=x;
+        left=NULL;
+        right=NULL;
+    }
+};
+
+
+class Solution{
+    public:
+    
+node* findsucc(node* root, int x,node* &succ)
+{
+    if(root==NULL)
+    {
+        root=new node(x);
+        return root;
+    }
+    
+    if(x<root->data)
+    {
+        succ=root;
+        root->left=findsucc(root->left,x,succ);
+    }
+    else
+        root->right=findsucc(root->right,x,succ);
+    return root;
+}
+
+    vector<int> findLeastGreater(vector<int>& arr, int n) 
+    {
+        node* root;
+        vector<int> s;
+        
+        for(int i=n-1;i>-1;i--)
+        {
+            node* succ=NULL;
+            root=findsucc(root,arr[i],succ);
+            if(succ)
+                s.push_back(succ->data);
+            else
+                s.push_back(-1);
+        }
+        reverse(s.begin(),s.end());
+        return s;
+    }
+};

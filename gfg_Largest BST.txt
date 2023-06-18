@@ -1,0 +1,109 @@
+Brute force approach:
+
+Consider each node as a root node of a bst, calculate the size of that bst and return 
+the maximum size.
+
+Implementation
+From every node call a recursive function which will check the subtree if it is bst or not. 
+If the subtree is a bst then calculate the size of the bst and then the maximum size among all
+the nodes.
+
+Time Complexity
+As we are checking all the subtrees so the time complexity is O(N^2), 
+here N is number of nodes.
+
+Space Complexity
+As we using recursive function on a tree so the space complexity will be O(Heigth of the tree).
+
+
+class Solution{
+    public:
+    
+    bool solve(Node* root,int min,int max)
+    {
+        if(root==NULL)
+            return true;
+            
+        if(root->data > min && root->data < max)
+        {
+            return solve(root->left,min,root->data)&&solve(root->right,root->data,max);
+        }
+        else
+            return false;
+    }
+    
+    int count(Node* root)
+    {
+        if(root==NULL)
+            return 0;
+            
+        return 1+count(root->left)+count(root->right);
+    }
+    
+    /*You are required to complete this method */
+    // Return the size of the largest sub-tree which is also a BST
+    int largestBst(Node *root)
+    {
+    	if(solve(root,INT_MIN,INT_MAX))
+    	    return count(root);
+    	    
+    	int l=largestBst(root->left);
+    	int r=largestBst(root->right);
+    	
+    	return max(l,r);
+    }
+};
+
+---------------------------------------------------------------------------------------------------------------------------
+Time Complexity
+As we are traversing the tree once , so the time complexity is O(N).
+
+Space Complexity
+As we using recursive function on a tree so the space complexity will be O(Height of the tree).
+
+
+
+class node1
+{
+    public:
+    int isbst;
+    int size;
+    int mn;
+    int mx;
+};
+
+node1 bst(struct Node *root,int & a)
+{
+    
+    if(root == NULL) 
+    	return {1,0,INT_MAX,INT_MIN};
+        
+    node1 left = bst(root->left,a);
+    node1 right = bst(root->right,a);
+    
+    node1 x;
+    x.size = 1+left.size+right.size;
+    x.mx = max(root->data,right.mx);
+    x.mn = min(root->data,left.mn);
+    
+    if(left.isbst == 1 && right.isbst == 1 && root->data > left.mx && root->data < right.mn) 
+    	x.isbst = 1;
+    
+    else 
+    	x.isbst = 0;
+    
+    if(x.isbst)
+    	a=max(a,x.size);
+    
+    return x;
+};
+
+class Solution{
+    public:
+    int largestBst(Node *root)
+    {
+        int ans=0;
+        bst(root,ans);
+         return ans;
+    }
+};

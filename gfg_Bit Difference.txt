@@ -1,0 +1,50 @@
+Time Complexity: O(1), __builtin_popcount function and xor both takes O(1) time.
+Auxiliary Space: O(1), We are not using any extra space.
+
+class Solution{
+    public:
+    // Function to find number of bits needed to be flipped to convert A to B
+    int countBitsFlip(int a, int b)
+    {
+        
+        return __builtin_popcount(a ^ b);
+        
+    }
+};
+
+
+--------------------------------------------
+Time Complexity: O(max(log m, log n)),
+Auxiliary Space: O(1), We are not using any extra space.
+
+class Solution{
+    public:
+    // Function to count set bits
+    int countSetBits(unsigned int n)
+    {
+        //We use a counter variable
+      unsigned int count = 0;
+      while(n)
+      {
+        if(n%2==1)
+           count++;
+        n=n/2;
+        
+      }
+      return count;
+    }
+    
+    
+    // Function to find number of bits needed to be flipped to convert A to B
+    int countBitsFlip(int a, int b){
+        
+        int ans = 0;
+        //XOR operation gives set bits only when there are dissimilar bits.
+        //We store the value of XOR operation of a and b.
+        ans = a^b;
+        
+        //returning the number of set bits in resultant.
+        return countSetBits(ans);
+        
+    }
+};

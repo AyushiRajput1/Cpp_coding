@@ -1,0 +1,71 @@
+//Time Complexity: O(log2n), where n is the given number
+//Space Complexity: O(1)
+
+class Solution {
+  public:
+  
+  int solve(int n,int &cn)
+  {
+      int c=0;
+        while(n)
+        {
+            cn++;
+            n=n>>1;
+        }
+  }
+  
+    int findPosition(int N) 
+    {
+        int cn=0;
+        if(__builtin_popcount(N)>1 || N==0)
+            return -1;
+        else
+            solve(N,cn);
+        return cn;
+    }
+};
+
+
+-------------------------------------------------------
+The idea is to start from the rightmost bit and one by one check value of every bit. Following is a detailed algorithm.
+1) If number is power of two then and then only its binary representation contains only one '1'. That's why check whether the given number is a power of 2 or not. If given number is not a power of 2, then print error message and exit.
+2) Initialize two variables; i = 1 (for looping) and pos = 1 (to find position of set bit)
+3) Inside loop, do bitwise AND of i and number 'N'. If value of this operation is true, then "pos" bit is set, so break the loop and return position. Otherwise, increment "pos" by 1 and left shift i by 1 and repeat the procedure. 
+
+
+class Solution {
+  public:
+  
+    // A helper method which returns 1 if n is a power of 2 else returns 0.
+    int isPowerOfTwo(int n) 
+    {
+        if (n && (!(n & (n - 1))))
+            return 1;
+        else
+            return 0;
+    }
+        
+    int findPosition(int N) {
+        
+        if (!isPowerOfTwo(N)) 
+            return -1; 
+      
+        int i = 1, pos = 1; 
+      
+        // Iterate through bits of n till we find a set bit 
+        // i&n will be non-zero only when 'i' and 'n' have a set bit 
+        // at same position 
+        while (!(i & N)) { 
+            // Unset current bit and set the next bit in 'i' 
+            i = i << 1; 
+      
+            // increment position 
+            ++pos; 
+        } 
+      
+        return pos; 
+    }
+};
+
+Time Complexity: O(log2n), where n is the given number
+Space Complexity: O(1)

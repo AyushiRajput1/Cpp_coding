@@ -1,0 +1,91 @@
+Numbers that are present in the power of 2 have only one setBit.
+
+Time Complexity: O(log n), As we are iterating through all bits of number.
+Auxiliary Space: O(1), We are not using any extra space.
+
+//Back-end complete function Template for C++
+
+class Solution{
+    public:
+    // Function to check if given number n is a power of two.
+    bool isPowerofTwo(long long n){
+        
+        if(n==0){
+            return false;
+        }
+    
+        //We use a counter variable to count number of set bits.
+        int count = 0;
+        while(n>0)
+        {
+            //Increment of counter variable if we get 1 as the rightmost bit.
+            count+=(n&1);
+            //Right Shift n to remove the rightmost bit.
+            n>>=1;
+        }
+        //returning true if number of set bits is 1 otherwise false.
+        return count==1;
+        
+    }
+};
+
+----------------------------------------------------------------
+Time Complexity: O(n), As we are iterating through all bits of number.
+Auxiliary Space: O(n), recusion
+
+bool solve(int n)
+{
+    if(n==0||n==1)
+        return true;
+        
+    if(n%2==1)
+    {   
+        //cout<<n;
+        return false;
+        
+    }
+        
+    return solve(n/2);
+    
+}
+
+class Solution{
+    public:
+    // Function to check if given number n is a power of two.
+    bool isPowerofTwo(long long n)
+    {
+        if(n==0)
+            return false;
+        return solve(n);
+        
+    }
+};
+
+
+----------------------------------------------------------------------
+Alternate Approach -1:
+Intuition:
+By using __builtin_popcount function.
+
+Implementation
+Steps:-
+
+Use __builtin_popcountll function to count the number of setBit.
+If number of setBit == 1 then return true
+Else return false.
+ 
+class Solution{
+    public:
+    // Function to check if given number n is a power of two.
+    bool isPowerofTwo(long long n){
+        
+        // Your code here  
+        return (__builtin_popcountll(n) == 1);
+    }
+};
+ 
+
+Complexity
+Time Complexity: O(1), __builtin_popcount function takes O(1) time.
+Auxiliary Space: O(1), We are not using any extra space.
+ 

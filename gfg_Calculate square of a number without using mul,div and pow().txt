@@ -1,0 +1,41 @@
+
+Time Complexity: O(n)
+Auxiliary Space: O(1)
+
+int calculateSquare(int num)
+{
+    if (num < 0)
+        num = -num;
+        
+    int i=num,p=0,r=0;
+    while(i--)
+    {
+        r+=num;
+    }
+    return r;
+}
+-----------------------------------
+
+Time Complexity: O(logn)
+Auxiliary Space: O(1)
+
+int calculateSquare(int num)
+{
+    if (num < 0)
+        num = -num;
+        
+    int i=num,p=0,r=0;
+    while(i)
+    {
+        if(i&1)//check if rightmost bit is 1
+        {
+            r+=num<<p;//num*2^pow
+        }
+        p++;
+        i=i>>1;//discard the rightmost bit
+    }
+    return r;
+}
+
+like:3^2=9
+	=(0*(2^2)+1*(2^1)+1*(2^0))

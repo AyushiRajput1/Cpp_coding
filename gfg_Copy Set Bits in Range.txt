@@ -1,0 +1,40 @@
+Time Complexity: O(r)
+Auxiliary Space: O(1)
+
+class Solution{
+    public:
+    int setSetBit(int x, int y, int l, int r)
+    {
+        int i=l;
+        while(i<=r)
+        {
+            int j=1<<(i-1);// sirf lth position pr 1 krdo
+            
+            if(y & j)//if y m jth position pr 1  hai 
+            {
+                
+                x=x|j; //x mai bhi jth positionn pr 1 krdo
+            }
+            i++;
+        }
+        return x;
+    }
+};
+
+-------------------------------------------
+Time Complexity: O(1)
+Auxiliary Space: O(1)
+
+
+class Solution{
+    public:
+    int setSetBit(int x, int y, int l, int r)
+    {
+       int mask=((1<<(r-l+1))-1);
+       mask=mask<<(l-1);
+       mask=y & mask;
+       x=x|mask;
+            
+        return x;
+    }
+};

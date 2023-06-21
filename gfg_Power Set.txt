@@ -1,0 +1,199 @@
+Time Complexity: O(n2n)
+Auxiliary Space: O(1)
+
+
+Power Set: Power set P(S) of a set S is the set of all subsets of S. For example S = {a, b, c} then P(s) = {{}, {a}, {b}, {c}, {a,b}, {a, c}, {b, c}, {a, b, c}}.
+If S has n elements in it then P(s) will have 2n elements
+
+Example: 
+
+Set  = [a,b,c]
+power_set_size = pow(2, 3) = 8
+Run for binary counter = 000 to 111
+
+Value of Counter            Subset
+   000                    -> Empty set
+   001                    -> a
+   010                    -> b
+   011                    -> ab
+   100                    -> c
+   101                    -> ac
+   110                    -> bc
+   111                    -> abc
+
+
+class Solution{
+	public:
+		vector<string> AllPossibleStrings(string s){
+			vector<string>res;
+			int n = s.size();
+			for(int i = 0; i < (1 << n); i++){
+				string temp ="";
+				for(int j = 0; j < n; j++){// Check if jth bit in the counter is set---> j goes like 001, 010, 100 so each bit is check and i goes from 0 to 7 
+					if(i & (1 << j))
+						temp += s[j];
+				}
+				if(temp.size())
+				res.push_back(temp);
+			}
+			sort(res.begin(), res.end());
+			return res;
+		}
+};
+
+-------------------------------------------------------------------------------------
+Method 2: (sorted by cardinality)
+In auxiliary array of bool set all elements to 0. That represent an empty set. 
+Set first element of auxiliary array to 1 and generate all permutations to produce all subsets
+with one element. Then set the second element to 1 which will produce all subsets with two 
+elements, repeat until all elements are included.
+
+Below is the implementation of the above approach.
+
+
+// C++ program for the above approach
+#include <bits/stdc++.h>
+using namespace std;
+ 
+// Function to print all the power set
+void printPowerSet(char set[], int n)
+{
+    bool *contain = new bool[n]{0};
+     
+    // Empty subset
+    cout << "" << endl;
+    for(int i = 0; i < n; i++)
+    {
+        contain[i] = 1;
+        // All permutation
+        do
+        {
+            for(int j = 0; j < n; j++)
+                if(contain[j])
+                    cout << set[j];
+            cout << endl;
+        } while(prev_permutation(contain, contain + n));
+    }
+}
+ 
+/*Driver code*/
+int main()
+{
+    char set[] = {'a','b','c'};
+    printPowerSet(set, 3);
+    return 0;
+}
+ 
+
+Time Complexity: O(n2n)
+Auxiliary Space: O(n)
+----------------------------------------------------------------
+Method 3: 
+This method is specific to the python programming language. We can iterate a loop over 0 to the
+ length of the set to obtain and generate all possible combinations of that string with the 
+iterable length. The program below will give the implementation of the above idea. 
+ 
+
+Below is the implementation of the above approach.
+
+
+#include <iostream>
+#include <vector>
+#include <functional>
+#include <string>
+ 
+using namespace std;
+ 
+// Function to generate all possible combinations of elements from an array
+vector<vector<char>> combinations(const vector<char> &arr, int len) {
+   
+      // Stores the result
+    vector<vector<char>> res;
+     
+    // Helper lambda function to generate the combinations
+    function<void(vector<char>, vector<char>)> fn =
+    [&](vector<char> active, vector<char> rest) {
+        if (active.size() == len) {
+            res.push_back(active);
+        } else {
+            for (int i = 0; i < rest.size(); i++) {
+                auto active_copy = active;
+                active_copy.push_back(rest[i]);
+                auto rest_copy = vector<char>(rest.begin() + i + 1, rest.end());
+                fn(active_copy, rest_copy);
+            }
+        }
+    };
+    fn({}, arr);
+    return res;
+}
+ 
+// Function to print all possible subsets of a given set (string)
+void print_powerset(const string &str) {
+    for (int i = 0; i <= str.length(); i++) {
+         
+        // Generating the combinations
+        auto combos = combinations(vector<char>(str.begin(), str.end()), i);
+         
+        // Displaying each combination
+        for (const auto &combo : combos) {
+            for (const auto &c : combo) {
+                cout << c;
+            }
+            cout << endl;
+        }
+    }
+}
+ 
+// Driver code
+int main() {
+    string str = "abc";
+    print_powerset(str);
+    return 0;
+}
+
+Time Complexity: O((2n * n2)
+Auxiliary Space: O(n2n)
+------------------------------------------------------------------------------
+Method 4:
+
+We can use backtrack here, we have two choices first consider that element then don’t consider that element. 
+
+Below is the implementation of the above approach.
+
+
+#include <bits/stdc++.h>
+using namespace std;
+ 
+void findPowerSet(char* s, vector<char> &res, int n){
+        if (n == 0) {
+            for (auto i: res)
+              cout << i;
+            cout << "\n";
+            return;
+             
+        }
+         res.push_back(s[n - 1]);
+         findPowerSet(s, res, n - 1);
+         res.pop_back();                   
+         findPowerSet(s, res, n - 1);
+    }
+     
+void printPowerSet(char* s, int n){
+    vector<char> ans;
+    findPowerSet(s, ans, n);
+}
+ 
+ 
+int main()
+{
+    char set[] = { 'a', 'b', 'c' };
+    printPowerSet(set, 3);
+    return 0;
+}
+
+Time Complexity: O(2^n)
+Space Complexity: O(n)
+
+ 
+

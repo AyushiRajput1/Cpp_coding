@@ -1,0 +1,110 @@
+Time Complexity: O(N)
+Auxiliary Space: O(1).
+
+vector<int> find(int arr[], int n , int x )
+{
+    int mn=INT_MAX,mx=INT_MIN,f=0;
+    vector<int> v;
+    for(int i=0;i<n;i++)
+    {
+        if(arr[i]==x)
+        {
+            mn=min(i,mn);
+            mx=max(i,mx);
+            f=1;
+        }
+        if(arr[i]> x)
+        {
+            break;
+        }
+    }
+    
+    if(f==1)
+        return {mn,mx};
+    else
+        return {-1,-1}; 
+    
+    return v;
+}
+------------------------------------------
+Time Complexity: O(logN)
+Auxiliary Space: O(1).
+
+
+vector<int> find(int arr[], int n , int x )
+{
+    int firstocc = lower_bound(arr, arr+n, x) - arr;
+    int lastocc = upper_bound(arr, arr+n, x) - arr - 1;
+    
+    if(firstocc == n|| arr[firstocc] != x)
+        return {-1, -1};
+    
+    return {firstocc, lastocc};
+}
+
+---------------------------------------------------------------------------
+Time Complexity: O(logN)
+Auxiliary Space: O(1).
+
+Algorithm:
+
+1. Using Binary Search, find the index where the given element is present in the array.
+
+2. If the element is not found in the array i.e. start > end then insert -1 twice in the ans vector. Return ans.
+
+3. If element is found out then :
+
+(i) using a variable i starting from mid index ( i = mid), traverse in backward direction of array while (arr[i] == x). When this loop ends, it indicates that arr[i] != x so push index i+1 as this was the first index in array where element is equal to x.
+
+(ii) using a variable j starting from mid index ( j = mid), traverse in forward direction of array while (arr[j] == x). When this loop ends, it indicates that arr[j] != x so push index j-1 as this was last index in array where element is equal to x.
+
+4. Return ans.
+
+Code:
+
+vector<int> find(int arr[], int n , int x )
+{
+    // code here
+   
+    long long start = 0, end = n-1;
+    long long mid = start + (end - start)/2;
+    while(start <= end)
+    {
+        if(arr[mid] == x)
+        {
+            break;
+        }
+        else if(arr[mid] < x)
+        {
+            start = mid+1;
+        }
+        else
+        {
+            end = mid-1;
+        }
+        mid = start + (end - start)/2;
+    }
+    vector<int> ans;
+    if(start > end)
+    {
+        ans.push_back(-1);
+        ans.push_back(-1);
+        return ans;
+    }
+    long long i = mid;
+    while(arr[i] == x)
+    {
+        i--;
+    }
+    ans.push_back(i+1);
+    
+    long long j = mid;
+    while(arr[j] == x)
+    {
+        j++;
+    }
+    ans.push_back(j-1);
+    
+    return ans;
+}
+return v;

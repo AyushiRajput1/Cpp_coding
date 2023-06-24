@@ -1,0 +1,24 @@
+Expected Time Complexity:O(1)
+Expected Auxillary Space:O(1)
+
+class Solution{
+  public:
+    int middle(int A, int B, int C)
+    {
+        int s=A+B+C;
+        int mx=max(A,max(B,C));
+        int mn=min(A,min(B,C));
+        
+        return(s-mx-mn);
+    }
+};
+-----------------------
+
+class Solution{
+  public:
+    int middle(int A, int B, int C){
+      if (A < B)
+        return (B < C)? B : max(A, C);
+      return (A < C)? A : max(B, C);
+    }
+};

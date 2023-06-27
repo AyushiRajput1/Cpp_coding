@@ -1,0 +1,61 @@
+Time Complexity: O(n^2)
+Auxiliary Space: O(n)
+
+class Solution{
+  public:
+    // nums: given vector
+    // return the Product vector P that hold product except self at each index
+    vector<long long int> productExceptSelf(vector<long long int>& nums, int n) 
+    {
+        vector<long long int> v;
+        
+        long long int p=1;
+        
+        for(int i=0;i<n;i++)
+        {
+            p=1;
+            for(int j=0;j<n;j++)
+            {
+                if(i!=j)
+                    p=p*nums[j];
+            }
+            v.push_back(p);
+        }
+        
+        
+        return v;
+    }
+};
+--------------------------------------------------------------------------------
+Time Complexity: O(n)
+Auxiliary Space: O(n)
+
+class Solution{
+  public:
+    // nums: given vector
+    // return the Product vector P that hold product except self at each index
+    vector<long long int> productExceptSelf(vector<long long int>& nums, int n) 
+    {
+        vector<long long int>left(n,1),right(n,1);
+        left[0]=1;
+        right[n-1]=1;
+        
+        for(int i=1;i<n;i++)
+        {
+            left[i]=nums[i-1]*left[i-1];
+        }
+        
+        for(int i=n-2;i>=0;i--)
+        {
+            right[i]=nums[i+1]*right[i+1];
+        }
+        
+        for(int i=0;i<n;i++)
+        {
+            nums[i]= left[i]*right[i];
+        }
+        
+        
+        return nums;
+    }
+};

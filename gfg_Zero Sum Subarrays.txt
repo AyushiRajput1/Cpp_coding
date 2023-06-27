@@ -1,0 +1,56 @@
+Time Complexity: O(N2), as it is having two nested loops, where N is size of input array.
+Auxiliary Space: O(1), as we are not using any extra space.
+
+class Solution{
+public:
+    //Function to count subarrays with sum equal to 0.
+    long long int findSubarray(vector<long long int> &arr, int n ) 
+    {
+        long long int c=0;
+        
+        for(int i=0;i<n;i++)
+        {
+            int s=0;
+            for(int j=i;j<n;j++)
+            {
+                s+=arr[j];
+                // cout<<arr[j];
+                if(s==0)
+                    c++;
+            }
+            
+        }
+        return c;
+    }
+};
+
+------------------------------------------------------------------------
+Time Complexity: O(N), as we are iterating over array once and Hashmap has complexity of O(1) for insertion and lookup.
+Space Complexity: O(N), as Hashmap can have at max of N element, where N is size of input array.
+
+
+
+class Solution{
+public:
+    //Function to count subarrays with sum equal to 0.
+    long long int findSubarray(vector<long long int> &arr, int n ) 
+    {
+        long long int c=0;
+        long long int sum=0;
+        unordered_map<long long int,long long int> m;
+         
+        for(int i=0;i<n;i++)
+        {
+            sum+=arr[i];
+            if(sum==0)
+                c+=1;
+                
+            if(m.find(sum)!=m.end())
+                c+=m[sum];
+                
+            m[sum]++;
+            
+        }
+        return c;
+    }
+};

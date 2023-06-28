@@ -1,0 +1,33 @@
+Time Complexity: O(n Log n) 
+Auxiliary Space: O(n)
+
+class Solution 
+{
+    public:
+    //Function to find the minimum number of swaps required to sort the array. 
+	int minSwaps(vector<int>&nums)
+	{
+	    vector<pair<int,int>> in;
+	    int c=0;
+	    
+	    for(int i=0;i<nums.size();i++)
+	    {
+	        in.push_back({nums[i],i});    
+	    }
+	    sort(in.begin(),in.end());
+	    
+	    
+	    for(int i=0;i<nums.size();i++)
+	    {
+	        if(in[i].second!=i)
+	        {
+	            swap(in[in[i].second],in[i]);
+	            i--;
+	            c++;
+	        }
+	    }
+	    
+        
+        return c;
+	}
+};

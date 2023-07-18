@@ -1,0 +1,52 @@
+
+
+
+
+#include <bits/stdc++.h> 
+using namespace std;
+
+int findSecondLargest(int n, vector<int> &arr)
+{
+    // Sort the array in decending order.
+    sort(arr.begin(), arr.end(), greater<int>());
+
+    for (int i = 1; i < n; i++)
+    {
+        // If the element is not equal to first largest element.
+        if (arr[i] != arr[i - 1])
+        {
+            return arr[i];
+        }
+    }
+    
+    return -1;
+}
+
+
+
+
+
+int findSecondLargest(int n, vector<int> &arr)
+{
+    set<int> s;
+    vector<int> v;
+    
+    int x=*max_element(arr.begin(),arr.end());
+    
+    for(int i=0;i<arr.size();i++)
+    {
+        s.insert(arr[i]);
+    }
+
+    s.erase(s.find(x));
+
+    for(auto i:s)
+    {
+        v.push_back(i);
+    }
+   
+    if(max_element(v.begin(),v.end())!=v.end()) 
+        return *max_element(v.begin(),v.end());
+    else
+        return -1;
+}

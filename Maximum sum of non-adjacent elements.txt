@@ -1,0 +1,25 @@
+#include <bits/stdc++.h> 
+
+int maxsum(vector<int> &nums,int i,vector<int>&dp)
+{
+    if(i<0)
+        return 0;
+
+    if(dp[i]!=-1)
+        return dp[i];
+
+    int inc=maxsum(nums,i-2,dp)+nums[i];
+    int exc=maxsum(nums,i-1,dp)+0;
+
+    return dp[i]=max(inc,exc); 
+    
+}
+
+int maximumNonAdjacentSum(vector<int> &nums)
+{
+    if(nums.size()==1)
+        return nums[0];
+        
+    vector<int> dp(nums.size(),-1);
+    return maxsum(nums,nums.size()-1,dp);
+}

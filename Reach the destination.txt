@@ -1,0 +1,49 @@
+
+
+#include<bits/stdc++.h>
+
+bool solve(int sx, int sy, int dx, int dy)
+{
+    if(sx==dx && sy==dy)
+        return true;
+    if(sx>dx || sy>dy)
+        return false;
+   
+    if(dx>dy)
+        solve(sx,sy,dx-dy,dy);
+    else
+     solve(sx,sy,dx,dy-dx);
+    
+}
+
+bool reachDestination(int sx, int sy, int dx, int dy) 
+{
+    if(sx==dx && sy==dy)
+        return true;
+
+    return solve(sx,sy,dx,dy);
+}
+---------------------------------------------------------------------
+//TLE
+
+#include<bits/stdc++.h>
+
+bool solve(int sx, int sy, int dx, int dy)
+{
+    if(sx==dx && sy==dy)
+        return true;
+    if(sx>dx || sy>dy)
+        return false;
+   
+    if(solve(sx+sy,sy,dx,dy) || solve(sx,sy+sx,dx,dy))
+        return true;
+    
+}
+
+bool reachDestination(int sx, int sy, int dx, int dy) 
+{
+    if(sx==dx && sy==dy)
+        return true;
+
+    return solve(sx,sy,dx,dy);
+}

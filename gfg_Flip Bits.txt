@@ -1,10 +1,12 @@
 //O(N)
+
 class Solution{
     public:
     int maxOnes(int a[], int n)
     {
         if(n==1 && a[0]==1 || n==1 && a[0]==0)
                return 1;
+               
         int c=0;
         for(int i=0;i<n;i++)
         {
@@ -20,10 +22,11 @@ class Solution{
         int cs=0,ms=0;
         for(int i=0;i<n;i++)
         {
-            cs+=a[i];
-            if(cs>ms)
+            cs+=a[i];//subaraay m element le shyd
+            
+            if(cs>ms)//subarray m element le lenge
                 ms=cs;
-            if(cs<0)
+            if(cs<0)//subarray m element nhi lenge kyuki vo ek 1 minus krega
                 cs=0;
         }
         return c+ms;
